@@ -9,7 +9,7 @@ modules = [
 
 class ARMATUE_SWITCHER_OT_save_settings(bpy.types.Operator):
     bl_idname = "armature_switcher.save_settings"
-    bl_label = "Save Settings"
+    bl_label = "Save"
 
     # execute
     def execute(self, context):
@@ -18,7 +18,7 @@ class ARMATUE_SWITCHER_OT_save_settings(bpy.types.Operator):
 
 class ARMATUE_SWITCHER_OT_load_settings(bpy.types.Operator):
     bl_idname = "armature_switcher.load_settings"
-    bl_label = "Load Settings"
+    bl_label = "Load"
 
     # execute
     def execute(self, context):
@@ -44,6 +44,12 @@ class ARMATUE_SWITCHER_OT_remove(bpy.types.Operator):
         context.scene.ARMATURE_SWITCHER_bonemap.remove(self.id)
         return{'FINISHED'}
 
+class ARMATUE_SWITCHER_OT_run(bpy.types.Operator):
+    bl_idname = "armature_switcher.run"
+    bl_label = "Run"
+
+    def execute(self, context):
+        return{'FINISHED'}
 
 
 class ARMATUE_SWITCHER_PT_setting(bpy.types.Panel):
@@ -54,21 +60,17 @@ class ARMATUE_SWITCHER_PT_setting(bpy.types.Panel):
     # bl_options = {'DEFAULT_CLOSED'}
 
     def draw(self, context):
-        for _, module in enumerate(modules):
-            if hasattr(module, "draw"):
-                if hasattr(module, "label"):
-                    self.layout.label(text=module.label)
-                module.draw(self, context, self.layout.box())
-
+        # 設定用
+        setting_box = self.layout.box()
 
         # Armature設定
-        box = self.layout.box()
+        box = setting_box.box()
         box.label(text="Armature")
         box.prop(context.scene, "ARMATURE_SWITCHER_armature_src", text="Src")
         box.prop(context.scene, "ARMATURE_SWITCHER_armature_dist", text="Dist")
 
         # Bone設定
-        box = self.layout.box()
+        box = setting_box.box()
         box.label(text="Bone Mapping")
         for i, bonemap in enumerate(context.scene.ARMATURE_SWITCHER_bonemap):
             row = box.row()
@@ -81,8 +83,13 @@ class ARMATUE_SWITCHER_PT_setting(bpy.types.Panel):
 
         box.operator("armature_switcher.add_bonemap")
 
+        # 設定実行
+        setting_box.operator("armature_switcher.run")
+
         # Save/Loadボタン
-        row = self.layout.box().row()
+        box = self.layout.box()
+        box.label(text="Save/Load Settings")
+        row = box.row()
         row.operator("armature_switcher.save_settings")
         row.operator("armature_switcher.load_settings")
 
@@ -95,7 +102,7 @@ def get_armature_list(self, context):
 # セレクトボックスに表示したいBoneのリストを作成する関数
 def get_src_bone_list(self, context):
     armature_name = context.scene.ARMATURE_SWITCHER_armature_src
-    if(armature_name == None):
+    if(not armature_name):
         return ()
 
     armature = bpy.data.objects[armature_name]
@@ -103,7 +110,7 @@ def get_src_bone_list(self, context):
 
 def get_dist_bone_list(self, context):
     armature_name = context.scene.ARMATURE_SWITCHER_armature_dist
-    if(armature_name == None):
+    if(not armature_name):
         return ()
 
     armature = bpy.data.objects[armature_name]
