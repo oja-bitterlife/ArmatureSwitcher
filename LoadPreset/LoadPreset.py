@@ -6,7 +6,7 @@ import json
 
 class ARMATUE_SWITCHER_OT_load_preset(bpy.types.Operator):
     bl_idname = "armature_switcher.load_preset"
-    bl_label = "VRoid=>AutoRigPro"
+    bl_label = "VRoidStudio => AutoRigPro"
 
     def execute(self, context):
         # アドオンのフォルダを取得する
@@ -43,6 +43,10 @@ def set_bone_mapping(context, src, dist):
     item = context.scene.ARMATURE_SWITCHER_bonemap.clear()
     for key in src.keys():
         if key in dist.keys():
+            # 対応Boneが無いときにnullにしてあるので飛ばす
+            if not src[key] or not dist[key]:
+                continue
+
             # bonemapリストに追加する
             item = context.scene.ARMATURE_SWITCHER_bonemap.add()
             item.src_bone = src[key]
