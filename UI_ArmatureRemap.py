@@ -1,29 +1,11 @@
 import bpy
+from .SaveLoadSettings import SaveLoadSettings
+from .ArmatureRemap import Run
 
 modules = [
-    # CursorToSelected,
-    # PositionMode,
-    # BoneSelector,
-    # BoneVisible,
+    SaveLoadSettings,
+    Run,
 ] 
-
-class ARMATUE_SWITCHER_OT_save_settings(bpy.types.Operator):
-    bl_idname = "armature_switcher.save_settings"
-    bl_label = "Save JSON"
-
-    # execute
-    def execute(self, context):
-        print("save")
-        return{'FINISHED'}
-
-class ARMATUE_SWITCHER_OT_load_settings(bpy.types.Operator):
-    bl_idname = "armature_switcher.load_settings"
-    bl_label = "Load JSON"
-
-    # execute
-    def execute(self, context):
-        print("load")
-        return{'FINISHED'}
 
 
 class ARMATUE_SWITCHER_OT_add(bpy.types.Operator):
@@ -44,30 +26,16 @@ class ARMATUE_SWITCHER_OT_remove(bpy.types.Operator):
         context.scene.ARMATURE_SWITCHER_bonemap.remove(self.id)
         return{'FINISHED'}
 
-class ARMATUE_SWITCHER_OT_run(bpy.types.Operator):
-    bl_idname = "armature_switcher.run"
-    bl_label = "Run"
+
+class ARMATUE_SWITCHER_OT_load_preset(bpy.types.Operator):
+    bl_idname = "armature_switcher.load_preset"
+    bl_label = "VRM=>AutoRigPro"
 
     def execute(self, context):
         return{'FINISHED'}
 
 
-class ARMATUE_SWITCHER_OT_load_preset_src(bpy.types.Operator):
-    bl_idname = "armature_switcher.load_preset_src"
-    bl_label = "Src Bones"
-
-    def execute(self, context):
-        return{'FINISHED'}
-
-class ARMATUE_SWITCHER_OT_load_preset_dist(bpy.types.Operator):
-    bl_idname = "armature_switcher.load_preset_dist"
-    bl_label = "Dist Bones"
-
-    def execute(self, context):
-        return{'FINISHED'}
-
-
-class ARMATUE_SWITCHER_PT_setting(bpy.types.Panel):
+class ARMATUE_SWITCHER_PT_armature_remap(bpy.types.Panel):
     bl_label = "Armature Remap"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
@@ -100,21 +68,16 @@ class ARMATUE_SWITCHER_PT_setting(bpy.types.Panel):
         box.operator("armature_switcher.add_bonemap")
 
         # 設定実行
-        setting_box.operator("armature_switcher.run")
+        Run.draw(self, context, setting_box)
 
         # Save/Loadボタン
-        box = setting_box.box()
-        box.label(text="Save/Load Settings")
-        row = box.row()
-        row.operator("armature_switcher.save_settings")
-        row.operator("armature_switcher.load_settings")
+        SaveLoadSettings.draw(self, context, setting_box)
 
         # プリセット読み込み
         box = setting_box.box()
-        box.label(text="Load Preset Mapping")
+        box.label(text="Load Mapping Preset")
         row = box.row()
-        row.operator("armature_switcher.load_preset_src")
-        row.operator("armature_switcher.load_preset_dist")
+        row.operator("armature_switcher.load_preset")
 
 
 # セレクトボックスに表示したいArmatureのリストを作成する関数
