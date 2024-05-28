@@ -12,7 +12,7 @@ modules = [
 
 class ARMATUE_SWITCHER_OT_add(bpy.types.Operator):
     bl_idname = "armature_switcher.add_bonemap"
-    bl_label = "Add BoneMap"
+    bl_label = "Add List"
 
     def execute(self, context):
         item = context.scene.ARMATURE_SWITCHER_bonemap_list.add()
@@ -47,6 +47,15 @@ class ARMATUE_SWITCHER_PT_armature_remap(bpy.types.Panel):
         box.label(text="Armature")
         box.prop(context.scene, "ARMATURE_SWITCHER_armature_src", text="Src")
         box.prop(context.scene, "ARMATURE_SWITCHER_armature_dist", text="Dist")
+
+
+        # Armatureが有効になるまで続きは無視
+        setting_box = self.layout.box()
+        if not context.scene.ARMATURE_SWITCHER_armature_src or not context.scene.ARMATURE_SWITCHER_armature_dist:
+            setting_box.enabled = False
+        if context.scene.ARMATURE_SWITCHER_armature_src == context.scene.ARMATURE_SWITCHER_armature_dist:
+            setting_box.enabled = False
+        
 
         # Bone設定
         box = setting_box.box()

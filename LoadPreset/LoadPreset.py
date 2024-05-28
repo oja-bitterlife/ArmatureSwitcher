@@ -39,18 +39,23 @@ class ARMATUE_SWITCHER_OT_load_preset(bpy.types.Operator):
         return{'FINISHED'}
 
 def set_bone_mapping(context, src, dist):
-    # 両方に同じキーがあれば置き換え対象
-    context.scene.ARMATURE_SWITCHER_bonemap_list.clear()
-    for key in src.keys():
-        if key in dist.keys():
-            # 対応Boneが無いときにnullにしてあるので飛ばす
-            if not src[key] or not dist[key]:
-                continue
+    try:
+        # 両方に同じキーがあれば置き換え対象
+        context.scene.ARMATURE_SWITCHER_bonemap_list.clear()
+        for key in src.keys():
+            if key in dist.keys():
+                # 対応Boneが無いときにnullにしてあるので飛ばす
+                if not src[key] or not dist[key]:
+                    continue
 
-            # bonemapリストに追加する
-            item = context.scene.ARMATURE_SWITCHER_bonemap_list.add()
-            item.src_bone = src[key]
-            item.dist_bone = dist[key]
+                # bonemapリストに追加する
+                item = context.scene.ARMATURE_SWITCHER_bonemap_list.add()
+                item.src_bone = src[key]
+                item.dist_bone = dist[key]
+    except Exception as e:
+        # 失敗
+        context.scene.ARMATURE_SWITCHER_bonemap_list.clear()
+        return "cannot read json file:" + str(e)
 
     return None
 
