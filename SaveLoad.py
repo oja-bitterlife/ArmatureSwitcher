@@ -9,7 +9,7 @@ modules = [
 
 class ARMATUE_SWITCHER_OT_save_settings(bpy.types.Operator):
     bl_idname = "armature_switcher.save_settings"
-    bl_label = "Save"
+    bl_label = "Save JSON"
 
     # execute
     def execute(self, context):
@@ -18,7 +18,7 @@ class ARMATUE_SWITCHER_OT_save_settings(bpy.types.Operator):
 
 class ARMATUE_SWITCHER_OT_load_settings(bpy.types.Operator):
     bl_idname = "armature_switcher.load_settings"
-    bl_label = "Load"
+    bl_label = "Load JSON"
 
     # execute
     def execute(self, context):
@@ -52,8 +52,23 @@ class ARMATUE_SWITCHER_OT_run(bpy.types.Operator):
         return{'FINISHED'}
 
 
+class ARMATUE_SWITCHER_OT_load_preset_src(bpy.types.Operator):
+    bl_idname = "armature_switcher.load_preset_src"
+    bl_label = "Src Bones"
+
+    def execute(self, context):
+        return{'FINISHED'}
+
+class ARMATUE_SWITCHER_OT_load_preset_dist(bpy.types.Operator):
+    bl_idname = "armature_switcher.load_preset_dist"
+    bl_label = "Dist Bones"
+
+    def execute(self, context):
+        return{'FINISHED'}
+
+
 class ARMATUE_SWITCHER_PT_setting(bpy.types.Panel):
-    bl_label = "Settings"
+    bl_label = "Armature Remap"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
     bl_parent_id = "ARMATUE_SWITCHER_PT_UI"
@@ -62,7 +77,8 @@ class ARMATUE_SWITCHER_PT_setting(bpy.types.Panel):
     def draw(self, context):
         # 設定用
         setting_box = self.layout.box()
-
+        setting_box.label(text="Mapping Data")
+ 
         # Armature設定
         box = setting_box.box()
         box.label(text="Armature")
@@ -87,12 +103,18 @@ class ARMATUE_SWITCHER_PT_setting(bpy.types.Panel):
         setting_box.operator("armature_switcher.run")
 
         # Save/Loadボタン
-        box = self.layout.box()
+        box = setting_box.box()
         box.label(text="Save/Load Settings")
         row = box.row()
         row.operator("armature_switcher.save_settings")
         row.operator("armature_switcher.load_settings")
 
+        # プリセット読み込み
+        box = setting_box.box()
+        box.label(text="Load Preset Mapping")
+        row = box.row()
+        row.operator("armature_switcher.load_preset_src")
+        row.operator("armature_switcher.load_preset_dist")
 
 
 # セレクトボックスに表示したいArmatureのリストを作成する関数
