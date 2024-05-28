@@ -1,0 +1,9 @@
+{
+    "root": "Root",
+    "hip": "J_Bip_C_Hips",
+    "spine": "J_Bip_C_Spine",
+    "chest": "J_Bip_C_Chest",
+    "upper_chest": "J_Bip_C_UpperChest",
+    "neck": "J_Bip_C_Neck",
+    "head": "J_Bip_C_Head"
+}

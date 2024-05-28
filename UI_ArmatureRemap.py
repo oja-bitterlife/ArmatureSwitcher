@@ -1,10 +1,12 @@
 import bpy
 from .SaveLoadSettings import SaveLoadSettings
 from .ArmatureRemap import Run
+from .LoadPreset import LoadPreset
 
 modules = [
     SaveLoadSettings,
     Run,
+    LoadPreset,
 ] 
 
 
@@ -24,14 +26,6 @@ class ARMATUE_SWITCHER_OT_remove(bpy.types.Operator):
 
     def execute(self, context):
         context.scene.ARMATURE_SWITCHER_bonemap.remove(self.id)
-        return{'FINISHED'}
-
-
-class ARMATUE_SWITCHER_OT_load_preset(bpy.types.Operator):
-    bl_idname = "armature_switcher.load_preset"
-    bl_label = "VRM=>AutoRigPro"
-
-    def execute(self, context):
         return{'FINISHED'}
 
 
@@ -74,10 +68,7 @@ class ARMATUE_SWITCHER_PT_armature_remap(bpy.types.Panel):
         SaveLoadSettings.draw(self, context, setting_box)
 
         # プリセット読み込み
-        box = setting_box.box()
-        box.label(text="Load Mapping Preset")
-        row = box.row()
-        row.operator("armature_switcher.load_preset")
+        LoadPreset.draw(self, context, setting_box)
 
 
 # セレクトボックスに表示したいArmatureのリストを作成する関数

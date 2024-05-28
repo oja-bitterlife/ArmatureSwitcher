@@ -1,3 +1,9 @@
 {
-    "root": "root"
+    "root": "c_pos",
+    "hip": "root.x",
+    "spine": "spine_01.x",
+    "chest": "spine_02.x",
+    "upperChest": null,
+    "neck": "neck.x",
+    "head": "head.x"
 }
