@@ -40,7 +40,7 @@ class ARMATUE_SWITCHER_OT_load_preset(bpy.types.Operator):
 
 def set_bone_mapping(context, src, dist):
     # 両方に同じキーがあれば置き換え対象
-    item = context.scene.ARMATURE_SWITCHER_bonemap.clear()
+    context.scene.ARMATURE_SWITCHER_bonemap_list.clear()
     for key in src.keys():
         if key in dist.keys():
             # 対応Boneが無いときにnullにしてあるので飛ばす
@@ -48,7 +48,7 @@ def set_bone_mapping(context, src, dist):
                 continue
 
             # bonemapリストに追加する
-            item = context.scene.ARMATURE_SWITCHER_bonemap.add()
+            item = context.scene.ARMATURE_SWITCHER_bonemap_list.add()
             item.src_bone = src[key]
             item.dist_bone = dist[key]
 

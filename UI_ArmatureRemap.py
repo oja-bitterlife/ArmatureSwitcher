@@ -15,7 +15,8 @@ class ARMATUE_SWITCHER_OT_add(bpy.types.Operator):
     bl_label = "Add BoneMap"
 
     def execute(self, context):
-        context.scene.ARMATURE_SWITCHER_bonemap.add()
+        item = context.scene.ARMATURE_SWITCHER_bonemap_list.add()
+        # item.name = "Root"
         return{'FINISHED'}
 
 class ARMATUE_SWITCHER_OT_remove(bpy.types.Operator):
@@ -25,7 +26,7 @@ class ARMATUE_SWITCHER_OT_remove(bpy.types.Operator):
     id: bpy.props.IntProperty()
 
     def execute(self, context):
-        context.scene.ARMATURE_SWITCHER_bonemap.remove(self.id)
+        context.scene.ARMATURE_SWITCHER_bonemap_list.remove(self.id)
         return{'FINISHED'}
 
 
@@ -50,15 +51,11 @@ class ARMATUE_SWITCHER_PT_armature_remap(bpy.types.Panel):
         # Bone設定
         box = setting_box.box()
         box.label(text="Bone Mapping")
-        for i, bonemap in enumerate(context.scene.ARMATURE_SWITCHER_bonemap):
-            row = box.row()
-            row.prop(bonemap, "src_bone", text="")
-            row.label(icon="RIGHTARROW_THIN")
-            row.prop(bonemap, "dist_bone", text="")
-
-            # 閉じるボタン
-            row.operator("armature_switcher.remove_bonemap", icon="PANEL_CLOSE").id = i
-
+        box.template_list("ARMATUE_SWITCHER_UL_bonemap_list", "", context.scene, "ARMATURE_SWITCHER_bonemap_list", context.scene, "ARMATURE_SWITCHER_bonemap_index")
+        box = box.box()
+        row = box.row()
+        row.prop(context.scene, "ARMATURE_SWITCHER_bone_src", text="Src")
+        row.prop(context.scene, "ARMATURE_SWITCHER_bone_dist", text="Dist")
         box.operator("armature_switcher.add_bonemap")
 
         # 設定実行
@@ -75,6 +72,9 @@ class ARMATUE_SWITCHER_PT_armature_remap(bpy.types.Panel):
 def get_armature_list(self, context):
     return ((obj.name, obj.name, "") for obj in bpy.data.objects if obj.type == "ARMATURE" and obj.data.users > 0)
 
+
+# 設定用データ
+# =================================================================================================
 # セレクトボックスに表示したいBoneのリストを作成する関数
 def get_src_bone_list(self, context):
     armature_name = context.scene.ARMATURE_SWITCHER_armature_src
@@ -104,6 +104,16 @@ class BONE_MAP_DATA(bpy.types.PropertyGroup):
         })
 
 
+# AOVの状況プロパティ表示の仕方
+class ARMATUE_SWITCHER_UL_bonemap_list(bpy.types.UIList):
+    def draw_item(self, context, layout, data, item, icon, active_data, active_propname, index):
+        # print(data, item, active_data, active_propname)
+        layout.prop(item, "src_bone", text="", emboss=False)
+        layout.label(icon="RIGHTARROW_THIN")
+        layout.prop(item, "dist_bone", text="", emboss=False)
+        layout.operator("armature_switcher.remove_bonemap", icon="PANEL_CLOSE").id = index
+
+
 def register():
     for module in modules:
         if hasattr(module, "register"):
@@ -114,7 +124,10 @@ def register():
     bpy.types.Scene.ARMATURE_SWITCHER_armature_dist = bpy.props.EnumProperty(name="Dist Armature", items=get_armature_list)
 
     # Boneの対応設定
-    bpy.types.Scene.ARMATURE_SWITCHER_bonemap = bpy.props.CollectionProperty(type=BONE_MAP_DATA)
+    bpy.types.Scene.ARMATURE_SWITCHER_bonemap_list = bpy.props.CollectionProperty(type=BONE_MAP_DATA)
+    bpy.types.Scene.ARMATURE_SWITCHER_bonemap_index = bpy.props.IntProperty()  # template_list使うときはこれも必要
+    bpy.types.Scene.ARMATURE_SWITCHER_bone_src = bpy.props.EnumProperty(name="Src Bone", items=get_src_bone_list)
+    bpy.types.Scene.ARMATURE_SWITCHER_bone_dist = bpy.props.EnumProperty(name="Dist Bone", items=get_dist_bone_list)
 
 
 def unregister():
