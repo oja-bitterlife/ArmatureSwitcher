@@ -62,8 +62,8 @@ class ARMATUE_SWITCHER_OT_match_bones(bpy.types.Operator):
 # draw
 # *****************************************************************************
 def draw(cls, context, layout):
-    # 選択中のObjectを取得
-    selected_objects = bpy.context.selected_objects
+    # 選択中のMESHObjectを取得
+    selected_objects = [obj for obj in bpy.context.selected_objects if obj.type == 'MESH']
 
     # オブジェクトが選択されていればVW更新ボタンを有効に
     l = layout.row()
