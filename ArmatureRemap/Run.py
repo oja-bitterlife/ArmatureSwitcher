@@ -12,15 +12,34 @@ class ARMATUE_SWITCHER_OT_remap_vw(bpy.types.Operator):
         for obj in selected_objects:
             if obj.type == 'MESH':
                 # 高速化用に頂点グループの辞書を作成しておく
-                vw_dict = {vg.name: vg for vg in obj.vertex_groups}
-                vw_keys = vw_dict.keys()
+                vg_dict = {vg.name: vg for vg in obj.vertex_groups}
 
-                # remap対象ボーンを変換していく
+                vg_unremap = {}
+
+                # 頂点グループが存在しなければRename
                 for bonemap in context.scene.ARMATURE_SWITCHER_bonemap_list:
-                    # オブジェクトが持つ頂点グループに一致するものがあるか
-                    if bonemap.src_bone in vw_keys:
-                        # 一致する頂点グループの名前を変更する
-                        vw_dict[bonemap.src_bone].name = bonemap.dist_bone
+                    # 対象の頂点グループ
+                    if bonemap.src_bone in vg_dict:
+                        if bonemap.dist_bone not in vg_dict:
+                            vg = vg_dict[bonemap.src_bone]   # 変更元
+                            vg.name = bonemap.dist_bone  # Rename
+                            vg_dict[bonemap.dist_bone] = vg
+                        else:
+                            vg_unremap[bonemap.src_bone] = bonemap.dist_bone
+
+                # 未処理グループの頂点グループ転送
+                for v in obj.data.vertices:
+                    for g in v.groups:
+                        # リネームしていない頂点グループだった
+                        if obj.vertex_groups[g.group].name in vg_unremap:
+                            vg_src_name = obj.vertex_groups[g.group].name
+                            vg_dist_name = vg_unremap[vg_src_name]
+                            vg_dist = vg_dict[vg_dist_name]
+                            vg_dist.add([v.index], g.weight, 'REPLACE')
+
+                # 未処理グループの削除
+                for unremap in vg_unremap:
+                    obj.vertex_groups.remove(vg_dict[unremap])
 
         # Armatureのリマップ
         for obj in selected_objects:
