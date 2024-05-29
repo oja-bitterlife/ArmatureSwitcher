@@ -14,17 +14,20 @@ class ARMATUE_SWITCHER_OT_remap_vw(bpy.types.Operator):
                 # 高速化用に頂点グループの辞書を作成しておく
                 vg_dict = {vg.name: vg for vg in obj.vertex_groups}
 
-                vg_unremap = {}
-
                 # 頂点グループが存在しなければRename
+                vg_unremap = {}  # Rename処理しなかった頂点グループ記録用
                 for bonemap in context.scene.ARMATURE_SWITCHER_bonemap_list:
-                    # 対象の頂点グループ
+                    # 対象の頂点グループチェック
                     if bonemap.src_bone in vg_dict:
+                        # 存在しなければRenameできる
                         if bonemap.dist_bone not in vg_dict:
                             vg = vg_dict[bonemap.src_bone]   # 変更元
                             vg.name = bonemap.dist_bone  # Rename
+
+                            # 辞書も更新する
                             vg_dict[bonemap.dist_bone] = vg
                         else:
+                            # すでに存在する頂点グループはRenameで対応できないので記録して後で処理
                             vg_unremap[bonemap.src_bone] = bonemap.dist_bone
 
                 # 未処理グループの頂点グループ転送
