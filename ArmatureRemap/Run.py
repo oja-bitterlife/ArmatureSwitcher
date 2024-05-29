@@ -1,5 +1,4 @@
-import bpy
-
+import bpy, mathutils
 
 class ARMATUE_SWITCHER_OT_remap_vw(bpy.types.Operator):
     bl_idname = "armature_switcher.remap_vw"
@@ -35,6 +34,7 @@ class ARMATUE_SWITCHER_OT_remap_vw(bpy.types.Operator):
                     for g in v.groups:
                         # リネームしていない頂点グループだった
                         if obj.vertex_groups[g.group].name in vg_unremap:
+                            # 変更先の頂点グループに追加する
                             vg_src_name = obj.vertex_groups[g.group].name
                             vg_dist_name = vg_unremap[vg_src_name]
                             vg_dist = vg_dict[vg_dist_name]
@@ -54,11 +54,47 @@ class ARMATUE_SWITCHER_OT_remap_vw(bpy.types.Operator):
 
         return{'FINISHED'}
 
+
 class ARMATUE_SWITCHER_OT_match_bones(bpy.types.Operator):
     bl_idname = "armature_switcher.match_bones"
     bl_label = "Match Bones"
 
+
+
     def execute(self, context):
+        active_backup = context.view_layer.objects.active
+
+        src_armature = bpy.data.objects[context.scene.ARMATURE_SWITCHER_armature_src]
+        dist_armature = bpy.data.objects[context.scene.ARMATURE_SWITCHER_armature_dist]
+
+        # edit_boneはEDITモードでかつActiveの時しか使えない
+        context.view_layer.objects.active = src_armature
+        bpy.ops.object.mode_set(mode='EDIT')
+
+        # 座標を回収
+        src_pos = {}
+        for bonemap in context.scene.ARMATURE_SWITCHER_bonemap_list:
+            src_bone = src_armature.data.edit_bones[bonemap.src_bone]
+            head = mathutils.Vector(src_bone.head)
+            tail = mathutils.Vector(src_bone.tail)
+            src_pos[bonemap.src_bone] = (head, tail)
+
+        # 操作対象切り替え
+        bpy.ops.object.mode_set(mode='OBJECT')
+        context.view_layer.objects.active = dist_armature
+        bpy.ops.object.mode_set(mode='EDIT')
+
+        # Distボーンに適用する
+        for bonemap in context.scene.ARMATURE_SWITCHER_bonemap_list:
+            dist_bone = dist_armature.data.edit_bones[bonemap.dist_bone]
+
+            dist_bone.tail = src_pos[bonemap.src_bone][1]
+            dist_bone.head = src_pos[bonemap.src_bone][0]
+
+        # モードとActiveオブジェクトを戻しておく
+        bpy.ops.object.mode_set(mode='OBJECT')
+        context.view_layer.objects.active = active_backup
+
         return{'FINISHED'}
 
 
