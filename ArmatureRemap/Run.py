@@ -3,11 +3,12 @@ import bpy
 
 class ARMATUE_SWITCHER_OT_remap_vw(bpy.types.Operator):
     bl_idname = "armature_switcher.remap_vw"
-    bl_label = "Remap Vertex Weights"
+    bl_label = "Remap Vertex Weights & Armature"
 
     def execute(self, context):
         selected_objects = bpy.context.selected_objects
 
+        # 頂点ウェイトのリマップ
         for obj in selected_objects:
             if obj.type == 'MESH':
                 # 高速化用に頂点グループの辞書を作成しておく
@@ -20,6 +21,14 @@ class ARMATUE_SWITCHER_OT_remap_vw(bpy.types.Operator):
                     if bonemap.src_bone in vw_keys:
                         # 一致する頂点グループの名前を変更する
                         vw_dict[bonemap.src_bone].name = bonemap.dist_bone
+
+        # Armatureのリマップ
+        for obj in selected_objects:
+            # obj内のモディファイアを取得
+            for mod in obj.modifiers:
+                # 変更対象のアーマチュアだったら変更
+                if mod.type == "ARMATURE" and mod.object.name == context.scene.ARMATURE_SWITCHER_armature_src:
+                    mod.object = bpy.data.objects[context.scene.ARMATURE_SWITCHER_armature_dist]
 
         return{'FINISHED'}
 

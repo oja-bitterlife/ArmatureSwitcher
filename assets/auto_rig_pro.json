@@ -7,6 +7,9 @@
     "neck": "neck.x",
     "head": "head.x",
 
+    "left_eye": "head.x",
+    "right_eye": "head.x",
+
     "left_shoulder": "shoulder.l",
     "left_arm_upper1": "c_arm_twist_offset.l",
     "left_arm_upper2": "arm_stretch.l",
@@ -31,7 +34,7 @@
     "left_hand_middle3": "c_index3.l",
     "left_hand_ring1": "ring1.l",
     "left_hand_ring2": "c_ring2.l",
-    "left_hand_ring3": "c_middle3.l",
+    "left_hand_ring3": "c_ring3.l",
     "left_hand_pinky1": "pinky1.l",
     "left_hand_pinky2": "c_pinky2.l",
     "left_hand_pinky3": "c_pinky3.l",
@@ -48,7 +51,7 @@
     "right_hand_middle3": "c_index3.r",
     "right_hand_ring1": "ring1.r",
     "right_hand_ring2": "c_ring2.r",
-    "right_hand_ring3": "c_middle3.r",
+    "right_hand_ring3": "c_ring3.r",
     "right_hand_pinky1": "pinky1.r",
     "right_hand_pinky2": "c_pinky2.r",
     "right_hand_pinky3": "c_pinky3.r",
