@@ -52,6 +52,7 @@ def set_bone_mapping(context, src, dist):
                 item = context.scene.ARMATURE_SWITCHER_bonemap_list.add()
                 item.src_bone = src[key]
                 item.dist_bone = dist[key]
+
     except Exception as e:
         # 失敗
         context.scene.ARMATURE_SWITCHER_bonemap_list.clear()

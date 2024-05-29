@@ -9,7 +9,7 @@ modules = [
     LoadPreset,
 ] 
 
-
+# BoneMapのペアを登録する
 class ARMATUE_SWITCHER_OT_add(bpy.types.Operator):
     bl_idname = "armature_switcher.add_bonemap"
     bl_label = "Add List"
@@ -19,6 +19,7 @@ class ARMATUE_SWITCHER_OT_add(bpy.types.Operator):
         # item.name = "Root"
         return{'FINISHED'}
 
+# BoneMapのリストを一つ削除する
 class ARMATUE_SWITCHER_OT_remove(bpy.types.Operator):
     bl_idname = "armature_switcher.remove_bonemap"
     bl_label = ""
@@ -30,6 +31,8 @@ class ARMATUE_SWITCHER_OT_remove(bpy.types.Operator):
         return{'FINISHED'}
 
 
+# メインUi
+# *****************************************************************************
 class ARMATUE_SWITCHER_PT_armature_remap(bpy.types.Panel):
     bl_label = "Armature Remap"
     bl_space_type = "VIEW_3D"
@@ -77,13 +80,13 @@ class ARMATUE_SWITCHER_PT_armature_remap(bpy.types.Panel):
         LoadPreset.draw(self, context, setting_box)
 
 
+# 設定用データ
+# =================================================================================================
 # セレクトボックスに表示したいArmatureのリストを作成する関数
 def get_armature_list(self, context):
     return ((obj.name, obj.name, "") for obj in bpy.data.objects if obj.type == "ARMATURE" and obj.data.users > 0)
 
 
-# 設定用データ
-# =================================================================================================
 # セレクトボックスに表示したいBoneのリストを作成する関数
 def get_src_bone_list(self, context):
     armature_name = context.scene.ARMATURE_SWITCHER_armature_src
@@ -100,6 +103,7 @@ def get_dist_bone_list(self, context):
 
     armature = bpy.data.objects[armature_name]
     return ((bone.name, bone.name, "") for bone in armature.data.bones if bone.name)
+
 
 # ボーン対応表データ
 class BONE_MAP_DATA(bpy.types.PropertyGroup):
