@@ -1,85 +1,100 @@
-import os
-import bpy
-import addon_utils
-import json
+import bpy, addon_utils
+import os, json
 
 
-class ARMATUE_SWITCHER_OT_load_preset(bpy.types.Operator):
-    bl_idname = "armature_switcher.load_preset"
-    bl_label = "VG: VRoidStudio => AutoRigPro"
-
-    def execute(self, context):
+class ARMATUE_SWITCHER_OT_load_preset_base(bpy.types.Operator):
+    def set_bone_mapping(self, context, file_src, file_dist):
         # アドオンのフォルダを取得する
         for mod in addon_utils.modules():
             if mod.bl_info.get("name") == "ArmatureSwitcher":
                 asset_path = os.path.join(os.path.dirname(mod.__file__), "assets")
                 break
 
-        # ファイルアクセス失敗
         if not asset_path:
-            self.report({"ERROR"}, "cannot open asset dir")
-            return {'CANCELLED'}
-        
+            return"cannot find asset dir"
+
         # jsonファイルの読み込み
-        path_vroid = os.path.join(asset_path, "vroid.json")
-        path_arp = os.path.join(asset_path, "auto_rig_pro_vg.json")
-        with open(path_vroid, "r", encoding="utf-8") as f_vroid:
-            with open(path_arp, "r", encoding="utf-8") as f_arp:
-                # UIにセット
-                try:
-                    error = set_bone_mapping(context, json.load(f_vroid), json.load(f_arp))
-                except Exception as e:
-                    error = "cannot read json file:" + str(e)
+        path_src = os.path.join(asset_path, file_src)
+        path_dist = os.path.join(asset_path, file_dist)
+        with open(path_src, "r", encoding="utf-8") as f_src:
+            with open(path_dist, "r", encoding="utf-8") as f_dist:
+                return self._set_bone_mapping(context, f_src, f_dist)
+        
 
-                # エラー終了
-                if error:
-                    self.report({"ERROR"}, error)
-                    return {'CANCELLED'}
+    def _set_bone_mapping(self, context, f_src, f_dist):
+        # UIにセット
+        try:
+            src = json.load(f_src)
+            dist = json.load(f_dist)
 
-        return{'FINISHED'}
+            src_added = []
 
-def set_bone_mapping(context, src, dist):
-    try:
-        src_added = []
-
-        # 両方に同じキーがあれば置き換え対象
-        context.scene.ARMATURE_SWITCHER_bonemap_list.clear()
-        for key in src.keys():
-            if key in dist.keys():
-                # 対応Boneが無いときにnullにしてあるので飛ばす
-                if not src[key] or not dist[key]:
-                    continue
-
+            # 両方に同じキーがあれば置き換え対象
+            context.scene.ARMATURE_SWITCHER_bonemap_list.clear()
+            for key in src.keys():
                 # すでに追加済みなら飛ばす
                 if src[key] in src_added:
                     continue
                 src_added.append(src[key])
 
-                # bonemapリストに追加する
-                item = context.scene.ARMATURE_SWITCHER_bonemap_list.add()
-                item.src_bone = src[key]
-                item.dist_bone = dist[key]
+                # 対応Boneが存在すればリストに追加
+                if key in dist.keys():
+                    # 対応Boneが無いときにnullにしてあるので飛ばす
+                    if not src[key] or not dist[key]:
+                        continue
 
-    except Exception as e:
-        # 失敗
-        context.scene.ARMATURE_SWITCHER_bonemap_list.clear()
-        return "cannot read json file:" + str(e)
+                    # bonemapリストに追加する
+                    item = context.scene.ARMATURE_SWITCHER_bonemap_list.add()
+                    item.src_bone = src[key]
+                    item.dist_bone = dist[key]
 
-    return None
+        except Exception as e:
+            # 失敗
+            context.scene.ARMATURE_SWITCHER_bonemap_list.clear()
+            return "cannot read json file:" + str(e)
+
+        return None
+
+
+class ARMATUE_SWITCHER_OT_load_preset_vg(ARMATUE_SWITCHER_OT_load_preset_base):
+    bl_idname = "armature_switcher.load_preset_vg"
+    bl_label = "VG: VRoidStudio => AutoRigPro"
+
+    def execute(self, context):
+        error = self.set_bone_mapping(context, "vroid.json", "auto_rig_pro_vg.json")
+        if error:
+            self.report({"ERROR"}, error)
+            return {'CANCELLED'}
+
+        return{'FINISHED'}
+
+class ARMATUE_SWITCHER_OT_load_preset_bone(ARMATUE_SWITCHER_OT_load_preset_base):
+    bl_idname = "armature_switcher.load_preset_bone"
+    bl_label = "Bone: VRoidStudio => AutoRigPro"
+
+    def execute(self, context):
+        error = self.set_bone_mapping(context, "vroid.json", "auto_rig_pro_ref.json")
+        if error:
+            self.report({"ERROR"}, error)
+            return {'CANCELLED'}
+
+        return{'FINISHED'}
+
 
 # draw
 # *****************************************************************************
 def draw(cls, context, layout):
     box = layout.box()
     box.label(text="Load Mapping Preset")
-    row = box.row()
-    row.operator("armature_switcher.load_preset")
+    box.operator("armature_switcher.load_preset_vg")
+    box.operator("armature_switcher.load_preset_bone")
 
 
 # register/unregister
 # *****************************************************************************
 classes = [
-    ARMATUE_SWITCHER_OT_load_preset,
+    ARMATUE_SWITCHER_OT_load_preset_vg,
+    ARMATUE_SWITCHER_OT_load_preset_bone,
 ]
 
 def register():
