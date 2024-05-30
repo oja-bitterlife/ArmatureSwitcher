@@ -12,7 +12,7 @@ modules = [
 # BoneMapのペアを登録する
 class ARMATUE_SWITCHER_OT_add(bpy.types.Operator):
     bl_idname = "armature_switcher.add_bonemap"
-    bl_label = "Add List"
+    bl_label = "Add Last"
 
     def execute(self, context):
         item = context.scene.ARMATURE_SWITCHER_bonemap_list.add()
