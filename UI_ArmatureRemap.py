@@ -16,7 +16,8 @@ class ARMATUE_SWITCHER_OT_add(bpy.types.Operator):
 
     def execute(self, context):
         item = context.scene.ARMATURE_SWITCHER_bonemap_list.add()
-        # item.name = "Root"
+        item.src_bone = context.scene.ARMATURE_SWITCHER_bone_src
+        item.dist_bone = context.scene.ARMATURE_SWITCHER_bone_dist
         return{'FINISHED'}
 
 # BoneMapのリストを一つ削除する
@@ -65,6 +66,7 @@ class ARMATUE_SWITCHER_PT_armature_remap(bpy.types.Panel):
         box.label(text="Bone Mapping")
         box.template_list("ARMATUE_SWITCHER_UL_bonemap_list", "", context.scene, "ARMATURE_SWITCHER_bonemap_list", context.scene, "ARMATURE_SWITCHER_bonemap_index")
         box = box.box()
+        box.prop(context.scene, "ARMATURE_SWITCHER_bone_deform", text="Deform Only")
         row = box.row()
         row.prop(context.scene, "ARMATURE_SWITCHER_bone_src", text="Src")
         row.prop(context.scene, "ARMATURE_SWITCHER_bone_dist", text="Dist")
@@ -94,7 +96,8 @@ def get_src_bone_list(self, context):
         return ()
 
     armature = bpy.data.objects[armature_name]
-    return ((bone.name, bone.name, "") for bone in armature.data.bones if bone.name)
+    deform_only = context.scene.ARMATURE_SWITCHER_bone_deform
+    return ((bone.name, bone.name, "") for bone in armature.data.bones if bone.name and (not deform_only or bone.use_deform))
 
 def get_dist_bone_list(self, context):
     armature_name = context.scene.ARMATURE_SWITCHER_armature_dist
@@ -102,13 +105,14 @@ def get_dist_bone_list(self, context):
         return ()
 
     armature = bpy.data.objects[armature_name]
-    return ((bone.name, bone.name, "") for bone in armature.data.bones if bone.name)
+    deform_only = context.scene.ARMATURE_SWITCHER_bone_deform
+    return ((bone.name, bone.name, "") for bone in armature.data.bones if bone.name and (not deform_only or bone.use_deform))
 
 
 # ボーン対応表データ
 class BONE_MAP_DATA(bpy.types.PropertyGroup):
-    src_bone: bpy.props.EnumProperty(name="Src Bone", items=get_src_bone_list)
-    dist_bone: bpy.props.EnumProperty(name="Dist Bone", items=get_dist_bone_list)
+    src_bone: bpy.props.StringProperty(name="Src Bone")
+    dist_bone: bpy.props.StringProperty(name="Dist Bone")
 
     def toJSON(self):
         return json.dumps({
@@ -139,6 +143,7 @@ def register():
     # Boneの対応設定
     bpy.types.Scene.ARMATURE_SWITCHER_bonemap_list = bpy.props.CollectionProperty(type=BONE_MAP_DATA)
     bpy.types.Scene.ARMATURE_SWITCHER_bonemap_index = bpy.props.IntProperty()  # template_list使うときはこれも必要
+    bpy.types.Scene.ARMATURE_SWITCHER_bone_deform = bpy.props.BoolProperty(name="Deform Only")
     bpy.types.Scene.ARMATURE_SWITCHER_bone_src = bpy.props.EnumProperty(name="Src Bone", items=get_src_bone_list)
     bpy.types.Scene.ARMATURE_SWITCHER_bone_dist = bpy.props.EnumProperty(name="Dist Bone", items=get_dist_bone_list)
 
