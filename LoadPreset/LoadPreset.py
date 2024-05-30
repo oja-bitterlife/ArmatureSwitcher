@@ -6,7 +6,7 @@ import json
 
 class ARMATUE_SWITCHER_OT_load_preset(bpy.types.Operator):
     bl_idname = "armature_switcher.load_preset"
-    bl_label = "VRoidStudio => AutoRigPro"
+    bl_label = "VG: VRoidStudio => AutoRigPro"
 
     def execute(self, context):
         # アドオンのフォルダを取得する
@@ -22,7 +22,7 @@ class ARMATUE_SWITCHER_OT_load_preset(bpy.types.Operator):
         
         # jsonファイルの読み込み
         path_vroid = os.path.join(asset_path, "vroid.json")
-        path_arp = os.path.join(asset_path, "auto_rig_pro.json")
+        path_arp = os.path.join(asset_path, "auto_rig_pro_vg.json")
         with open(path_vroid, "r", encoding="utf-8") as f_vroid:
             with open(path_arp, "r", encoding="utf-8") as f_arp:
                 # UIにセット
