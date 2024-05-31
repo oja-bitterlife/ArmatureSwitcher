@@ -63,6 +63,13 @@ class ARMATUE_SWITCHER_OT_bonemap_load(bpy.types.Operator):
             self.report({'ERROR'}, traceback.format_exc())
             return {'CANCELLED'}
 
+        # データの設定
+        context.scene.ARMATURE_SWITCHER_bonemap_list.clear()
+        for src_bone in data["bonemap"]:
+            item = context.scene.ARMATURE_SWITCHER_bonemap_list.add()
+            item.src_bone = src_bone
+            item.dist_bone = data["bonemap"][src_bone]
+
         return{'FINISHED'}
 
 
