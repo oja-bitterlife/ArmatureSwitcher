@@ -1,10 +1,9 @@
 import bpy
-from .SaveLoadSettings import SaveLoadSettings
-from .ArmatureRemap import Remap, ListOP
+from .BoneRemap import Remap, ListOP, SaveLoad
 from .LoadPreset import LoadPreset
 
 modules = [
-    SaveLoadSettings,
+    SaveLoad,
     Remap,
     ListOP,
     LoadPreset,
@@ -30,23 +29,24 @@ class ARMATUE_SWITCHER_PT_armature_remap(bpy.types.Panel):
         box.prop(context.scene, "ARMATURE_SWITCHER_armature_src")
         box.prop(context.scene, "ARMATURE_SWITCHER_armature_dist")
 
-
         # Armatureが有効になるまで続きは無視
         setting_box = self.layout.box()
         if not context.scene.ARMATURE_SWITCHER_armature_src or not context.scene.ARMATURE_SWITCHER_armature_dist:
             setting_box.enabled = False
         if context.scene.ARMATURE_SWITCHER_armature_src == context.scene.ARMATURE_SWITCHER_armature_dist:
             setting_box.enabled = False
-        
 
-        # Bone設定
-        ListOP.draw(self, context, setting_box)
-
-        # 設定実行
-        Remap.draw(self, context, setting_box)
+        box = setting_box.box()
+        box.label(text="Bone Mapping")
 
         # Save/Loadボタン
-        SaveLoadSettings.draw(self, context, setting_box)
+        SaveLoad.draw(self, context, box)
+
+        # Bone設定
+        ListOP.draw(self, context, box)
+
+        # 設定実行
+        Remap.draw(self, context, box)
 
         # プリセット読み込み
         LoadPreset.draw(self, context, setting_box)

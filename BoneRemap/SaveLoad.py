@@ -1,8 +1,8 @@
 import bpy
 
 
-class ARMATUE_SWITCHER_OT_save_settings(bpy.types.Operator):
-    bl_idname = "armature_switcher.save_settings"
+class ARMATUE_SWITCHER_OT_bonemap_save(bpy.types.Operator):
+    bl_idname = "armature_switcher.bonemap_save"
     bl_label = "Save JSON"
 
     # execute
@@ -10,8 +10,8 @@ class ARMATUE_SWITCHER_OT_save_settings(bpy.types.Operator):
         print("save")
         return{'FINISHED'}
 
-class ARMATUE_SWITCHER_OT_load_settings(bpy.types.Operator):
-    bl_idname = "armature_switcher.load_settings"
+class ARMATUE_SWITCHER_OT_bonemap_load(bpy.types.Operator):
+    bl_idname = "armature_switcher.bonemap_load"
     bl_label = "Load JSON"
 
     # execute
@@ -23,18 +23,16 @@ class ARMATUE_SWITCHER_OT_load_settings(bpy.types.Operator):
 # draw
 # *****************************************************************************
 def draw(cls, context, layout):
-    box = layout.box()
-    box.label(text="Save/Load Settings")
-    row = box.row()
-    row.operator("armature_switcher.save_settings")
-    row.operator("armature_switcher.load_settings")
+    row = layout.row()
+    row.operator("armature_switcher.bonemap_save")
+    row.operator("armature_switcher.bonemap_load")
 
 
 # register/unregister
 # *****************************************************************************
 classes = [
-    ARMATUE_SWITCHER_OT_save_settings,
-    ARMATUE_SWITCHER_OT_load_settings,
+    ARMATUE_SWITCHER_OT_bonemap_save,
+    ARMATUE_SWITCHER_OT_bonemap_load,
 ]
 
 def register():

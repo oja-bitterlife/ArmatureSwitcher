@@ -52,8 +52,7 @@ class ARMATUE_SWITCHER_OT_bonemap_remove(bpy.types.Operator):
 # draw
 # *****************************************************************************
 def draw(cls, context, layout):
-    box = layout.box()
-    box.label(text="Bone Mapping")
+    box = layout
     box.template_list("ARMATUE_SWITCHER_UL_bonemap_list", "", context.scene, "ARMATURE_SWITCHER_bonemap_list", context.scene, "ARMATURE_SWITCHER_bonemap_index")
     box = box.box()
     box.prop(context.scene, "ARMATURE_SWITCHER_bone_deform")
