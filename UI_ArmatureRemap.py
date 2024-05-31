@@ -1,36 +1,14 @@
 import bpy
 from .SaveLoadSettings import SaveLoadSettings
-from .ArmatureRemap import Run
+from .ArmatureRemap import Remap, ListOP
 from .LoadPreset import LoadPreset
 
 modules = [
     SaveLoadSettings,
-    Run,
+    Remap,
+    ListOP,
     LoadPreset,
 ] 
-
-# BoneMapのペアを登録する
-class ARMATUE_SWITCHER_OT_add(bpy.types.Operator):
-    bl_idname = "armature_switcher.add_bonemap"
-    bl_label = "Add Last"
-
-    def execute(self, context):
-        item = context.scene.ARMATURE_SWITCHER_bonemap_list.add()
-        item.src_bone = context.scene.ARMATURE_SWITCHER_bone_src
-        item.dist_bone = context.scene.ARMATURE_SWITCHER_bone_dist
-        return{'FINISHED'}
-
-# BoneMapのリストを一つ削除する
-class ARMATUE_SWITCHER_OT_remove(bpy.types.Operator):
-    bl_idname = "armature_switcher.remove_bonemap"
-    bl_label = ""
-
-    id: bpy.props.IntProperty()
-
-    def execute(self, context):
-        context.scene.ARMATURE_SWITCHER_bonemap_list.remove(self.id)
-        return{'FINISHED'}
-
 
 # メインUi
 # *****************************************************************************
@@ -62,18 +40,10 @@ class ARMATUE_SWITCHER_PT_armature_remap(bpy.types.Panel):
         
 
         # Bone設定
-        box = setting_box.box()
-        box.label(text="Bone Mapping")
-        box.template_list("ARMATUE_SWITCHER_UL_bonemap_list", "", context.scene, "ARMATURE_SWITCHER_bonemap_list", context.scene, "ARMATURE_SWITCHER_bonemap_index")
-        box = box.box()
-        box.prop(context.scene, "ARMATURE_SWITCHER_bone_deform", text="Deform Only")
-        row = box.row()
-        row.prop(context.scene, "ARMATURE_SWITCHER_bone_src", text="Src")
-        row.prop(context.scene, "ARMATURE_SWITCHER_bone_dist", text="Dist")
-        box.operator("armature_switcher.add_bonemap")
+        ListOP.draw(self, context, setting_box)
 
         # 設定実行
-        Run.draw(self, context, setting_box)
+        Remap.draw(self, context, setting_box)
 
         # Save/Loadボタン
         SaveLoadSettings.draw(self, context, setting_box)

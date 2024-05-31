@@ -59,8 +59,6 @@ class ARMATUE_SWITCHER_OT_match_bones(bpy.types.Operator):
     bl_idname = "armature_switcher.match_bones"
     bl_label = "Match Bones"
 
-
-
     def execute(self, context):
         active_backup = context.view_layer.objects.active
 
