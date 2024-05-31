@@ -1,22 +1,68 @@
-import bpy
+import bpy, json
+import traceback
 
 
 class ARMATUE_SWITCHER_OT_bonemap_save(bpy.types.Operator):
     bl_idname = "armature_switcher.bonemap_save"
     bl_label = "Save JSON"
 
+    # ファイル選択ダイアログ
+    filepath: bpy.props.StringProperty()
+    filter_glob: bpy.props.StringProperty(
+        default="*.json",
+    )
+    def invoke(self, context, event):
+        context.window_manager.fileselect_add(self)
+        return {'RUNNING_MODAL'}
+
     # execute
     def execute(self, context):
-        print("save")
-        return{'FINISHED'}
+        # かならず.jsonに
+        if not self.filepath.lower().endswith(".json"):
+            self.filepath += ".json"
+
+        # JSON保存データ構築
+        data = {
+            "bonemap": {}
+        }
+        for bonemap in context.scene.ARMATURE_SWITCHER_bonemap_list:
+            data["bonemap"][bonemap.src_bone] = bonemap.dist_bone
+
+        # ファイル保存
+        try:
+            with open(self.filepath, 'w') as f:
+                json.dump(data, f, indent=4)
+        except:
+            print(traceback.format_exc())
+            self.report({'ERROR'}, traceback.format_exc())
+            return {'CANCELLED'}
+
+        return {'FINISHED'}
 
 class ARMATUE_SWITCHER_OT_bonemap_load(bpy.types.Operator):
     bl_idname = "armature_switcher.bonemap_load"
     bl_label = "Load JSON"
 
+    # ファイル選択ダイアログ
+    filepath: bpy.props.StringProperty()
+    filter_glob: bpy.props.StringProperty(
+        default="*.json",
+    )
+    def invoke(self, context, event):
+        context.window_manager.fileselect_add(self)
+        return {'RUNNING_MODAL'}
+
     # execute
     def execute(self, context):
-        print("load")
+        # JSON読み込み
+        try:
+            with open(self.filepath, 'r') as f:
+                data = json.load(f)
+        except:
+            print(traceback.format_exc())
+            self.report({'ERROR'}, traceback.format_exc())
+            return {'CANCELLED'}
+
         return{'FINISHED'}
 
 

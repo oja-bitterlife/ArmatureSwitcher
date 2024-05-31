@@ -59,7 +59,12 @@ def draw(cls, context, layout):
     row = box.row()
     row.prop(context.scene, "ARMATURE_SWITCHER_bone_src")
     row.prop(context.scene, "ARMATURE_SWITCHER_bone_dist")
+
     row = box.row()
+    # SrcBoneがすでに存在するかチェック
+    src_bones = (bonemap.src_bone for bonemap in context.scene.ARMATURE_SWITCHER_bonemap_list)
+    if context.scene.ARMATURE_SWITCHER_bone_src in src_bones:
+        row.enabled = False
     row.operator("armature_switcher.add_bonemap")
     row.operator("armature_switcher.insert_bonemap")
 
