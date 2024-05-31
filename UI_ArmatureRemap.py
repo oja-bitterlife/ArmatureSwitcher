@@ -27,8 +27,8 @@ class ARMATUE_SWITCHER_PT_armature_remap(bpy.types.Panel):
         # Armature設定
         box = setting_box.box()
         box.label(text="Armature")
-        box.prop(context.scene, "ARMATURE_SWITCHER_armature_src", text="Src")
-        box.prop(context.scene, "ARMATURE_SWITCHER_armature_dist", text="Dist")
+        box.prop(context.scene, "ARMATURE_SWITCHER_armature_src")
+        box.prop(context.scene, "ARMATURE_SWITCHER_armature_dist")
 
 
         # Armatureが有効になるまで続きは無視

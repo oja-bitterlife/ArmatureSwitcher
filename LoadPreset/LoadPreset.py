@@ -56,29 +56,24 @@ class ARMATUE_SWITCHER_OT_load_preset_base(bpy.types.Operator):
         return None
 
 
-class ARMATUE_SWITCHER_OT_load_preset_vg(ARMATUE_SWITCHER_OT_load_preset_base):
-    bl_idname = "armature_switcher.load_preset_vg"
-    bl_label = "VG: VRoidStudio => AutoRigPro"
+class ARMATUE_SWITCHER_OT_load_preset(ARMATUE_SWITCHER_OT_load_preset_base):
+    bl_idname = "armature_switcher.load_preset"
+    bl_label = "Load"
 
     def execute(self, context):
-        error = self.set_bone_mapping(context, "vroid.json", "auto_rig_pro_vg.json")
+        error = "Fatal Error"
+
+        for data in PRESET_DATA:
+            if data[0] == context.scene.ARMATURE_SWITCHER_bonemap_preset:
+                error = self.set_bone_mapping(context, data[1], data[2])
+                break
+
         if error:
             self.report({"ERROR"}, error)
             return {'CANCELLED'}
 
         return{'FINISHED'}
 
-class ARMATUE_SWITCHER_OT_load_preset_bone(ARMATUE_SWITCHER_OT_load_preset_base):
-    bl_idname = "armature_switcher.load_preset_bone"
-    bl_label = "Bone: VRoidStudio => AutoRigPro"
-
-    def execute(self, context):
-        error = self.set_bone_mapping(context, "vroid.json", "auto_rig_pro_ref.json")
-        if error:
-            self.report({"ERROR"}, error)
-            return {'CANCELLED'}
-
-        return{'FINISHED'}
 
 
 # draw
@@ -86,20 +81,29 @@ class ARMATUE_SWITCHER_OT_load_preset_bone(ARMATUE_SWITCHER_OT_load_preset_base)
 def draw(cls, context, layout):
     box = layout.box()
     box.label(text="Load Mapping Preset")
-    box.operator("armature_switcher.load_preset_vg")
-    box.operator("armature_switcher.load_preset_bone")
+    box.prop(context.scene, "ARMATURE_SWITCHER_bonemap_preset", text="")
+    box.operator("armature_switcher.load_preset")
+
+PRESET_DATA = (
+    ("VRoidStudio => AutoRigPro(Remap Vertex Groups)", "vroid.json", "auto_rig_pro_vg.json"),
+    ("VRoidStudio => AutoRigPro(Match Bones)", "vroid.json", "auto_rig_pro_ref.json"),
+)
+
+def get_bonemap_presets(self, context):
+    return ((preset_data[0], preset_data[0], "") for preset_data in PRESET_DATA)
 
 
 # register/unregister
 # *****************************************************************************
 classes = [
-    ARMATUE_SWITCHER_OT_load_preset_vg,
-    ARMATUE_SWITCHER_OT_load_preset_bone,
+    ARMATUE_SWITCHER_OT_load_preset,
 ]
 
 def register():
     for cls in classes:
         bpy.utils.register_class(cls)
+
+    bpy.types.Scene.ARMATURE_SWITCHER_bonemap_preset = bpy.props.EnumProperty(name="Bonemap Preset", items=get_bonemap_presets)
 
 def unregister():
     for cls in reversed(classes):

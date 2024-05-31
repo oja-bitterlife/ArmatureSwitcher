@@ -2,7 +2,7 @@ import bpy, mathutils
 
 class ARMATUE_SWITCHER_OT_remap_vw(bpy.types.Operator):
     bl_idname = "armature_switcher.remap_vw"
-    bl_label = "Remap Vertex Weights & Armature"
+    bl_label = "Remap Vertex Groups & Armature"
 
     def execute(self, context):
         selected_objects = bpy.context.selected_objects
