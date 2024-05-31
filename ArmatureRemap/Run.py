@@ -77,7 +77,8 @@ class ARMATUE_SWITCHER_OT_match_bones(bpy.types.Operator):
             src_bone = src_armature.data.edit_bones[bonemap.src_bone]
             head = mathutils.Vector(src_bone.head)
             tail = mathutils.Vector(src_bone.tail)
-            src_pos[bonemap.src_bone] = (head, tail)
+            roll = src_bone.roll
+            src_pos[bonemap.src_bone] = (head, tail, roll)
 
         # 操作対象切り替え
         bpy.ops.object.mode_set(mode='OBJECT')
@@ -88,8 +89,9 @@ class ARMATUE_SWITCHER_OT_match_bones(bpy.types.Operator):
         for bonemap in context.scene.ARMATURE_SWITCHER_bonemap_list:
             dist_bone = dist_armature.data.edit_bones[bonemap.dist_bone]
 
-            dist_bone.tail = src_pos[bonemap.src_bone][1]
             dist_bone.head = src_pos[bonemap.src_bone][0]
+            dist_bone.tail = src_pos[bonemap.src_bone][1]
+            dist_bone.roll = src_pos[bonemap.src_bone][2]
 
         # モードとActiveオブジェクトを戻しておく
         bpy.ops.object.mode_set(mode='OBJECT')
