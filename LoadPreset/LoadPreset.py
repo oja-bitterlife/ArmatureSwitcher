@@ -53,6 +53,9 @@ def _set_bone_mapping(context, f_src, f_dist):
                 item.src_bone = src_bones[key]
                 item.dist_bone = dist_bones[key]
 
+        context.scene.ARMATURE_SWITCHER_bone_upper_src = src["upper_axis"].upper()
+        context.scene.ARMATURE_SWITCHER_bone_upper_dist = dist["upper_axis"].upper()
+
     except Exception as e:
         # 失敗
         context.scene.ARMATURE_SWITCHER_bonemap_list.clear()

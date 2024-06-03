@@ -1,4 +1,5 @@
 import bpy, mathutils
+import math
 
 class ARMATUE_SWITCHER_OT_remap_vw(bpy.types.Operator):
     bl_idname = "armature_switcher.remap_vw"
@@ -65,6 +66,9 @@ class ARMATUE_SWITCHER_OT_match_bones(bpy.types.Operator):
         src_armature = bpy.data.objects[context.scene.ARMATURE_SWITCHER_armature_src]
         dist_armature = bpy.data.objects[context.scene.ARMATURE_SWITCHER_armature_dist]
 
+        # Rollの計算
+        append_roll = check_roll(context.scene.ARMATURE_SWITCHER_bone_upper_src, context.scene.ARMATURE_SWITCHER_bone_upper_dist)
+
         # edit_boneはEDITモードでかつActiveの時しか使えない
         context.view_layer.objects.active = src_armature
         bpy.ops.object.mode_set(mode='EDIT')
@@ -75,7 +79,7 @@ class ARMATUE_SWITCHER_OT_match_bones(bpy.types.Operator):
             src_bone = src_armature.data.edit_bones[bonemap.src_bone]
             head = mathutils.Vector(src_bone.head)
             tail = mathutils.Vector(src_bone.tail)
-            roll = src_bone.roll
+            roll = src_bone.roll + append_roll
             src_pos[bonemap.src_bone] = (head, tail, roll)
 
         # 操作対象切り替え
@@ -97,6 +101,31 @@ class ARMATUE_SWITCHER_OT_match_bones(bpy.types.Operator):
 
         return{'FINISHED'}
 
+def check_roll(upper_src, upper_dist):
+    roll = 0
+
+    if upper_src == "Z":
+        if upper_dist == "X":
+            roll = 90
+        if upper_dist == "-X":
+            roll = -90
+    if upper_src == "-Z":
+        if upper_dist == "X":
+            roll = -90
+        if upper_dist == "-X":
+            roll = 90
+    if upper_src == "X":
+        if upper_dist == "Z":
+            roll = -90
+        if upper_dist == "-Z":
+            roll = 90
+    if upper_src == "-X":
+        if upper_dist == "Z":
+            roll = 90
+        if upper_dist == "-Z":
+            roll = -90
+
+    return roll * math.pi / 180
 
 # draw
 # *****************************************************************************
@@ -105,12 +134,16 @@ def draw(cls, context, layout):
     selected_objects = [obj for obj in bpy.context.selected_objects if obj.type == 'MESH']
 
     # オブジェクトが選択されていればVW更新ボタンを有効に
-    l = layout.row()
-    l.operator("armature_switcher.remap_vw")
-    l.enabled = len(selected_objects) > 0
+    row = layout.row()
+    row.operator("armature_switcher.remap_vw")
+    row.enabled = len(selected_objects) > 0
 
     # ボーン変換ボタン
-    layout.operator("armature_switcher.match_bones")
+    box = layout.box()
+    row = box.row()
+    row.prop(context.scene, "ARMATURE_SWITCHER_bone_upper_src")
+    row.prop(context.scene, "ARMATURE_SWITCHER_bone_upper_dist")
+    box.operator("armature_switcher.match_bones")
 
 
 # register/unregister
@@ -120,9 +153,19 @@ classes = [
     ARMATUE_SWITCHER_OT_match_bones,
 ]
 
+UPPER_AXIS_DATA = (
+    ("Z", "Z Up", ""),
+    ("-Z", "-Z Up", ""),
+    ("X", "X Up", ""),
+    ("-X", "-X Up", ""),
+)
+
 def register():
     for cls in classes:
         bpy.utils.register_class(cls)
+
+    bpy.types.Scene.ARMATURE_SWITCHER_bone_upper_src = bpy.props.EnumProperty(name="Src Upper Axis", items=UPPER_AXIS_DATA)
+    bpy.types.Scene.ARMATURE_SWITCHER_bone_upper_dist = bpy.props.EnumProperty(name="Dist Upper Axis", items=UPPER_AXIS_DATA)
 
 def unregister():
     for cls in reversed(classes):
