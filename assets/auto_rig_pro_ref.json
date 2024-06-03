@@ -6,8 +6,8 @@
     "neck": "neck_ref.x",
     "head": "head_ref.x",
 
-    "left_eye": "head_ref.x",
-    "right_eye": "head_ref.x",
+    "left_eye": null,
+    "right_eye": null,
 
     "left_shoulder": "shoulder_ref.l",
     "left_arm_upper1": "arm_ref.l",
