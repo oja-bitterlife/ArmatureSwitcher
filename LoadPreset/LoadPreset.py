@@ -85,8 +85,10 @@ def draw(cls, context, layout):
     box.operator("armature_switcher.load_preset")
 
 PRESET_DATA = (
-    ("VRoidStudio => AutoRigPro(Remap Vertex Groups)", "vroid.json", "auto_rig_pro_vg.json"),
-    ("VRoidStudio => AutoRigPro(Match Bones)", "vroid.json", "auto_rig_pro_ref.json"),
+    # ("Load Preset", "", "auto_rig_pro_vg.json"),
+    ("VRoidStudio => AutoRigPro(Vertex Groups)", "vroid.json", "auto_rig_pro_vg.json"),
+    ("VRoidStudio => AutoRigPro(Reference Bones)", "vroid.json", "auto_rig_pro_ref.json"),
+    ("VRoidStudio => Rigify(Metarig)", "vroid.json", "rigify-meta.json"),
 )
 
 def get_bonemap_presets(self, context):
