@@ -57,6 +57,7 @@ def PostProcess(context, src_pos, dist_armature):
         if bone.head.z > head_pos.z:
             face_pos[bone.name] = (mathutils.Vector(bone.head), mathutils.Vector(bone.tail))
 
+    # 顔の位置を合わせる
     move_face_value = dist_armature.data.edit_bones["face"].head - dist_armature.data.edit_bones["spine.006"].head
     for bone_name in face_pos:
         dist_armature.data.edit_bones[bone_name].head = face_pos[bone_name][0] - move_face_value
