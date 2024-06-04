@@ -50,6 +50,10 @@ def VRoid_to_ARP(context, dist_armature):
         v = (bone.tail - bone.head)*0.8
         bone.head = bone.tail - v
 
+    # 直線過ぎて肘のIKが効かないので少しずらしておく
+    dist_armature.data.edit_bones["forearm_ref.l"].head.y += 0.015
+
+
     # 踵ボーンの再配置
     foot_bone = dist_armature.data.edit_bones["foot_ref.l"]  # 足の付け根を元に配置する
     heels = (  # Bone名, ｘ軸移動量
@@ -65,6 +69,9 @@ def VRoid_to_ARP(context, dist_armature):
         bone.head.y = foot_bone.head.y + 0.03  # ボーンの長さをひとまず固定で
         bone.head.z = bone.tail.z = 0
         bone.roll = 0
+
+    # VRMのheadが短いのでARP用に長くしておく
+    dist_armature.data.edit_bones["head_ref.x"].tail += (dist_armature.data.edit_bones["head_ref.x"].tail - dist_armature.data.edit_bones["head_ref.x"].head)*2
 
 
 def VRoid_to_Rigify(context, dist_armature):
