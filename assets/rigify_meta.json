@@ -7,8 +7,8 @@
         "neck": "spine.004",
         "head": "spine.006",
 
-        "left_eye": null,
-        "right_eye": null,
+        "left_eye": "eye.L",
+        "right_eye": "eye.R",
 
         "left_shoulder": "shoulder.L",
         "left_arm_upper1": "upper_arm.L",
@@ -51,7 +51,7 @@
         "right_hand_thumb3": "thumb.03.R",
         "right_hand_index_base": "palm.01.R",
         "right_hand_index1": "f_index.01.R",
-        "right_hand_index2": "f_index.01.R",
+        "right_hand_index2": "f_index.02.R",
         "right_hand_index3": "f_index.03.R",
         "right_hand_middle_base": "palm.02.R",
         "right_hand_middle1": "f_middle.01.R",

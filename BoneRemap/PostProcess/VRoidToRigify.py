@@ -48,3 +48,16 @@ def PostProcess(context, src_pos, dist_armature):
 
     # VRMのheadが短いのでARP用に長くしておく
     dist_armature.data.edit_bones["spine.006"].tail += (dist_armature.data.edit_bones["spine.006"].tail - dist_armature.data.edit_bones["spine.006"].head)*2
+
+    # headより上のボーンをまとめて移動
+    # まずは現在位置の保存
+    head_pos = dist_armature.data.edit_bones["spine.006"].tail
+    face_pos = {}
+    for bone in dist_armature.data.edit_bones:
+        if bone.head.z > head_pos.z:
+            face_pos[bone.name] = (mathutils.Vector(bone.head), mathutils.Vector(bone.tail))
+
+    move_face_value = dist_armature.data.edit_bones["face"].head - dist_armature.data.edit_bones["spine.006"].head
+    for bone_name in face_pos:
+        dist_armature.data.edit_bones[bone_name].head = face_pos[bone_name][0] - move_face_value
+        dist_armature.data.edit_bones[bone_name].tail = face_pos[bone_name][1] - move_face_value
