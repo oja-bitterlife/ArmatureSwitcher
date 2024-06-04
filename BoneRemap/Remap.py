@@ -94,7 +94,7 @@ class ARMATUE_SWITCHER_OT_match_bones(bpy.types.Operator):
             dist_bone.roll = src_pos[bonemap.src_bone][2]
 
         # ポストプロセス
-        MATCH_POSTPROCESS[context.scene.ARMATURE_SWITCHER_match_postprocess](context)
+        MATCH_POSTPROCESS[context.scene.ARMATURE_SWITCHER_match_postprocess](context, dist_armature)
 
         # モードとActiveオブジェクトを戻しておく
         bpy.ops.object.mode_set(mode='OBJECT')

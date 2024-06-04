@@ -12,15 +12,15 @@
 
         "left_shoulder": "shoulder_ref.l",
         "left_arm_upper1": "arm_ref.l",
-        "left_arm_upper2": "arm_ref.l",
+        "left_arm_upper2": null,
         "left_arm_lower1": "forearm_ref.l",
-        "left_arm_lower2": "forearm_ref.l",
+        "left_arm_lower2": null,
 
         "right_shoulder": "shoulder_ref.r",
         "right_arm_upper1": "arm_ref.r",
-        "right_arm_upper2": "arm_ref.r",
+        "right_arm_upper2": null,
         "right_arm_lower1": "forearm_ref.r",
-        "right_arm_lower2": "forearm_ref.r",
+        "right_arm_lower2": null,
 
         "left_hand": "hand_ref.l",
         "left_hand_thumb1": "thumb1_ref.l",
@@ -65,16 +65,16 @@
         "right_hand_pinky3": "pinky3_ref.r",
 
         "left_leg_upper1": "thigh_ref.l",
-        "left_leg_upper2": "thigh_ref.l",
+        "left_leg_upper2": null,
         "left_leg_lower1": "leg_ref.l",
-        "left_leg_lower2": "leg_ref.l",
+        "left_leg_lower2": null,
         "left_foot": "foot_ref.l",
         "left_toe": "toes_ref.l",
 
         "right_leg_upper1": "thigh_ref.r",
-        "right_leg_upper2": "thigh_ref.r",
+        "right_leg_upper2": null,
         "right_leg_lower1": "leg_ref.r",
-        "right_leg_lower2": "leg_ref.r",
+        "right_leg_lower2": null,
         "right_foot": "foot_ref.r",
         "right_toe": "toes_ref.r"
     }

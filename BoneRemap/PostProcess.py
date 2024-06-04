@@ -1,10 +1,59 @@
 import bpy
+import math
 
-def Nothing(context):
+def Nothing(context, dist_armature):
     pass
 
-def VRoid_to_ARP(context):
-    pass
 
-def VRoid_to_Rigify(context):
+def VRoid_to_ARP(context, dist_armature):
+    # 追加Roll。主に指のボーンを-90度曲げる(Rは追従するのでLのみ)
+    additional_roll = (
+        ("shoulder_ref.l", -90),
+        ("arm_ref.l", -90),
+        ("forearm_ref.l", -90),
+        ("hand_ref.l", -90),
+        ("thumb1_ref.l", -90),
+        ("thumb2_ref.l", -90),
+        ("thumb3_ref.l", -90),
+        ("index1_ref.l", -90),
+        ("index2_ref.l", -90),
+        ("index3_ref.l", -90),
+        ("middle1_ref.l", -90),
+        ("middle2_ref.l", -90),
+        ("middle3_ref.l", -90),
+        ("ring1_ref.l", -90),
+        ("ring2_ref.l", -90),
+        ("ring3_ref.l", -90),
+        ("pinky1_ref.l", -90),
+        ("pinky2_ref.l", -90),
+        ("pinky3_ref.l", -90),
+        ("thigh_ref.l", -90),
+        ("leg_ref.l", -90),
+        ("foot_ref.l", 180),
+        ("toes_ref.l", 180),
+    )
+    for key, roll in additional_roll:
+        dist_armature.data.edit_bones[key].roll += roll * math.pi / 180
+
+    # 手のひらボーンの再配置
+    palms = (
+        ("index1_base_ref.l", -0.6),
+        ("middle1_base_ref.l", 0),
+        ("ring1_base_ref.l", 0.6),
+        ("pinky1_base_ref.l", 1.2),
+    )
+
+    # 中指、薬指間を基準とする
+    move_base_value = (dist_armature.data.edit_bones["ring1_ref.l"].head- dist_armature.data.edit_bones["middle1_ref.l"].head)
+    hand_bone = dist_armature.data.edit_bones["hand_ref.l"]
+    for key, val in palms:
+        bone = dist_armature.data.edit_bones[key]
+        bone.head = hand_bone.head + move_base_value * val
+        bone.roll = hand_bone.roll
+
+        # ちょっと短くする
+        v = (bone.tail - bone.head)*0.8
+        bone.head = bone.tail - v
+
+def VRoid_to_Rigify(context, dist_armature):
     pass
