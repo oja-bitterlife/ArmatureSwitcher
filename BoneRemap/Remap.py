@@ -1,5 +1,4 @@
 import bpy, mathutils
-from .PostProcess import VRoidToARP, VRoidToRigify
 
 class ARMATUE_SWITCHER_OT_remap_vw(bpy.types.Operator):
     bl_idname = "armature_switcher.remap_vw"
@@ -119,6 +118,7 @@ def draw(cls, context, layout):
     row.prop(context.scene, "ARMATURE_SWITCHER_match_postprocess")
     row.operator("armature_switcher.match_bones")
 
+
 # register/unregister
 # *****************************************************************************
 classes = [
@@ -126,13 +126,16 @@ classes = [
     ARMATUE_SWITCHER_OT_match_bones,
 ]
 
+
+from .PostProcess import VRoidToARP, VRoidToRigify
 MATCH_POSTPROCESS = {
-    "None": lambda context, dist_armature : None,
+    "None": lambda context, dist_armature : None,  # なにもしない
     "VRoid to ARP": VRoidToARP.PostProcess,
     "VRoid to Rigify": VRoidToRigify.PostProcess,
 }
 def get_postprocess(self, context):
     return ((key, key, "") for key in MATCH_POSTPROCESS)
+
 
 def register():
     for cls in classes:
