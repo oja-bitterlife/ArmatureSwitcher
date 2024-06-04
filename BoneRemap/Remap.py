@@ -1,5 +1,5 @@
 import bpy, mathutils
-import math
+from . import PostProcess
 
 class ARMATUE_SWITCHER_OT_remap_vw(bpy.types.Operator):
     bl_idname = "armature_switcher.remap_vw"
@@ -93,6 +93,9 @@ class ARMATUE_SWITCHER_OT_match_bones(bpy.types.Operator):
             dist_bone.tail = src_pos[bonemap.src_bone][1]
             dist_bone.roll = src_pos[bonemap.src_bone][2]
 
+        # ポストプロセス
+        MATCH_POSTPROCESS[context.scene.ARMATURE_SWITCHER_match_postprocess](context)
+
         # モードとActiveオブジェクトを戻しておく
         bpy.ops.object.mode_set(mode='OBJECT')
         context.view_layer.objects.active = active_backup
@@ -123,17 +126,19 @@ classes = [
     ARMATUE_SWITCHER_OT_match_bones,
 ]
 
-MATCH_POSTPROCESS = (
-    ("None", "None", ""),
-    ("VRoid to ARP", "VRoid to ARP", ""),
-    ("VRoid to Rigify", "VRoid to Rigify", ""),
-)
+MATCH_POSTPROCESS = {
+    "None": PostProcess.Nothing,
+    "VRoid to ARP": PostProcess.VRoid_to_ARP,
+    "VRoid to Rigify": PostProcess.VRoid_to_Rigify,
+}
+def get_postprocess(self, context):
+    return ((key, key, "") for key in MATCH_POSTPROCESS)
 
 def register():
     for cls in classes:
         bpy.utils.register_class(cls)
 
-    bpy.types.Scene.ARMATURE_SWITCHER_match_postprocess = bpy.props.EnumProperty(name="PostProcess", items=MATCH_POSTPROCESS)
+    bpy.types.Scene.ARMATURE_SWITCHER_match_postprocess = bpy.props.EnumProperty(name="PostProcess", items=get_postprocess)
 
 def unregister():
     for cls in reversed(classes):
