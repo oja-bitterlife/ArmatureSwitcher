@@ -127,7 +127,7 @@ classes = [
 ]
 
 MATCH_POSTPROCESS = {
-    "None": PostProcess.Nothing,
+    "None": lambda context, dist_armature : None,
     "VRoid to ARP": PostProcess.VRoid_to_ARP,
     "VRoid to Rigify": PostProcess.VRoid_to_Rigify,
 }
