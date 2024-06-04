@@ -1,7 +1,7 @@
 import bpy
 import math
 
-def VRoid_to_ARP(context, dist_armature):
+def PostProcess(context, dist_armature):
     # 追加Roll。主に指のボーンを-90度曲げる(Rは追従するのでLのみ)
     additional_roll = (
         ("shoulder_ref.l", -90),
@@ -72,7 +72,3 @@ def VRoid_to_ARP(context, dist_armature):
 
     # VRMのheadが短いのでARP用に長くしておく
     dist_armature.data.edit_bones["head_ref.x"].tail += (dist_armature.data.edit_bones["head_ref.x"].tail - dist_armature.data.edit_bones["head_ref.x"].head)*2
-
-
-def VRoid_to_Rigify(context, dist_armature):
-    pass

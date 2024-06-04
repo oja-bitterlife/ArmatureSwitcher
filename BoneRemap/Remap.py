@@ -1,5 +1,5 @@
 import bpy, mathutils
-from . import PostProcess
+from .PostProcess import VRoidToARP, VRoidToRigify
 
 class ARMATUE_SWITCHER_OT_remap_vw(bpy.types.Operator):
     bl_idname = "armature_switcher.remap_vw"
@@ -128,8 +128,8 @@ classes = [
 
 MATCH_POSTPROCESS = {
     "None": lambda context, dist_armature : None,
-    "VRoid to ARP": PostProcess.VRoid_to_ARP,
-    "VRoid to Rigify": PostProcess.VRoid_to_Rigify,
+    "VRoid to ARP": VRoidToARP.PostProcess,
+    "VRoid to Rigify": VRoidToRigify.PostProcess,
 }
 def get_postprocess(self, context):
     return ((key, key, "") for key in MATCH_POSTPROCESS)
