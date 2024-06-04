@@ -77,6 +77,5 @@
         "right_leg_lower2": "leg_twist.r",
         "right_foot": "foot.r",
         "right_toe": "toes_01.r"
-    },
-    "upper_axis": "Z"
+    }
 }

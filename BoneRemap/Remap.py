@@ -66,9 +66,6 @@ class ARMATUE_SWITCHER_OT_match_bones(bpy.types.Operator):
         src_armature = bpy.data.objects[context.scene.ARMATURE_SWITCHER_armature_src]
         dist_armature = bpy.data.objects[context.scene.ARMATURE_SWITCHER_armature_dist]
 
-        # Rollの計算
-        append_roll = check_roll(context.scene.ARMATURE_SWITCHER_bone_upper_src, context.scene.ARMATURE_SWITCHER_bone_upper_dist)
-
         # edit_boneはEDITモードでかつActiveの時しか使えない
         context.view_layer.objects.active = src_armature
         bpy.ops.object.mode_set(mode='EDIT')
@@ -79,7 +76,8 @@ class ARMATUE_SWITCHER_OT_match_bones(bpy.types.Operator):
             src_bone = src_armature.data.edit_bones[bonemap.src_bone]
             head = mathutils.Vector(src_bone.head)
             tail = mathutils.Vector(src_bone.tail)
-            roll = src_bone.roll + append_roll
+            roll = src_bone.roll
+
             src_pos[bonemap.src_bone] = (head, tail, roll)
 
         # 操作対象切り替え
@@ -101,31 +99,6 @@ class ARMATUE_SWITCHER_OT_match_bones(bpy.types.Operator):
 
         return{'FINISHED'}
 
-def check_roll(upper_src, upper_dist):
-    roll = 0
-
-    if upper_src == "Z":
-        if upper_dist == "X":
-            roll = 90
-        if upper_dist == "-X":
-            roll = -90
-    if upper_src == "-Z":
-        if upper_dist == "X":
-            roll = -90
-        if upper_dist == "-X":
-            roll = 90
-    if upper_src == "X":
-        if upper_dist == "Z":
-            roll = -90
-        if upper_dist == "-Z":
-            roll = 90
-    if upper_src == "-X":
-        if upper_dist == "Z":
-            roll = 90
-        if upper_dist == "-Z":
-            roll = -90
-
-    return roll * math.pi / 180
 
 # draw
 # *****************************************************************************
@@ -139,12 +112,9 @@ def draw(cls, context, layout):
     row.enabled = len(selected_objects) > 0
 
     # ボーン変換ボタン
-    box = layout.box()
-    row = box.row()
-    row.prop(context.scene, "ARMATURE_SWITCHER_bone_upper_src")
-    row.prop(context.scene, "ARMATURE_SWITCHER_bone_upper_dist")
-    box.operator("armature_switcher.match_bones")
-
+    row = layout.box()
+    row.prop(context.scene, "ARMATURE_SWITCHER_match_postprocess")
+    row.operator("armature_switcher.match_bones")
 
 # register/unregister
 # *****************************************************************************
@@ -153,19 +123,17 @@ classes = [
     ARMATUE_SWITCHER_OT_match_bones,
 ]
 
-UPPER_AXIS_DATA = (
-    ("Z", "Z Up", ""),
-    ("-Z", "-Z Up", ""),
-    ("X", "X Up", ""),
-    ("-X", "-X Up", ""),
+MATCH_POSTPROCESS = (
+    ("None", "None", ""),
+    ("VRoid to ARP", "VRoid to ARP", ""),
+    ("VRoid to Rigify", "VRoid to Rigify", ""),
 )
 
 def register():
     for cls in classes:
         bpy.utils.register_class(cls)
 
-    bpy.types.Scene.ARMATURE_SWITCHER_bone_upper_src = bpy.props.EnumProperty(name="Src Upper Axis", items=UPPER_AXIS_DATA)
-    bpy.types.Scene.ARMATURE_SWITCHER_bone_upper_dist = bpy.props.EnumProperty(name="Dist Upper Axis", items=UPPER_AXIS_DATA)
+    bpy.types.Scene.ARMATURE_SWITCHER_match_postprocess = bpy.props.EnumProperty(name="PostProcess", items=MATCH_POSTPROCESS)
 
 def unregister():
     for cls in reversed(classes):

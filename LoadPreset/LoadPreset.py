@@ -77,7 +77,8 @@ PRESET_DATA = (
     ("Select Preset", None, None),
     ("VRoidStudio => AutoRigPro(Vertex Groups)", "vroid.json", "auto_rig_pro_vg.json"),
     ("VRoidStudio => AutoRigPro(Reference Bones)", "vroid.json", "auto_rig_pro_ref.json"),
-    ("VRoidStudio => Rigify(Metarig)", "vroid.json", "rigify-meta.json"),
+    ("VRoidStudio => Rigify(Vertex Groups)", "vroid.json", "rigify_vg.json"),
+    ("VRoidStudio => Rigify(Metarig)", "vroid.json", "rigify_meta.json"),
 )
 
 def get_bonemap_presets(self, context):
