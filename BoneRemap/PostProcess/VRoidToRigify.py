@@ -8,9 +8,6 @@ def PostProcess(context, src_pos, dist_armature):
     # 追加Roll。主に指のボーンを-90度曲げる(Rは追従するのでLのみ)
     additional_roll = (
         ("shoulder.L", -90),
-        # ("arm_ref.l", -90),
-        # ("forearm_ref.l", -90),
-        # ("hand_ref.l", -90),
         ("thumb.01.L", 90),
         ("thumb.02.L", 90),
         ("thumb.03.L", 90),
@@ -26,10 +23,9 @@ def PostProcess(context, src_pos, dist_armature):
         ("f_pinky.01.L", 90),
         ("f_pinky.02.L", 90),
         ("f_pinky.03.L", 90),
-        # ("thigh_ref.l", -90),
-        # ("leg_ref.l", -90),
-        # ("foot_ref.l", 180),
-        # ("toes_ref.l", 180),
+        ("thigh.L", 180),
+        ("shin.L", 180),
+        ("toe.L", 180),
     )
     for key, roll in additional_roll:
         dist_armature.data.edit_bones[key].roll += roll * math.pi / 180
