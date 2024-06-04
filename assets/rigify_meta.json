@@ -7,8 +7,8 @@
         "neck": "spine.004",
         "head": "spine.006",
 
-        "left_eye": "eye.L",
-        "right_eye": "eye.R",
+        "left_eye": null,
+        "right_eye": null,
 
         "left_shoulder": "shoulder.L",
         "left_arm_upper1": "upper_arm.L",

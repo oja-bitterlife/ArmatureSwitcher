@@ -1,8 +1,9 @@
-import bpy
+import bpy, mathutils
 
 def PostProcess(context, src_pos, dist_armature):
     # 首ボーンは分割されている
     dist_armature.data.edit_bones["spine.005"].head = (dist_armature.data.edit_bones["spine.004"].head + dist_armature.data.edit_bones["spine.004"].tail) * 0.5
+    dist_armature.data.edit_bones["spine.003"].tail = dist_armature.data.edit_bones["spine.004"].head  # くっつける必要がある
 
     # 手のひらボーンの再配置
     move_base_value = (dist_armature.data.edit_bones["f_ring.01.L"].head- dist_armature.data.edit_bones["f_middle.01.L"].head)  # 中指、薬指間を基準長とする
@@ -46,5 +47,4 @@ def PostProcess(context, src_pos, dist_armature):
     _move_weist("pelvis.R", "thigh.R")
 
     # VRMのheadが短いのでARP用に長くしておく
-    # dist_armature.data.edit_bones["spine.006"].tail += (dist_armature.data.edit_bones["spine.006"].tail - dist_armature.data.edit_bones["spine.006"].head)*2
-
+    dist_armature.data.edit_bones["spine.006"].tail += (dist_armature.data.edit_bones["spine.006"].tail - dist_armature.data.edit_bones["spine.006"].head)*2
