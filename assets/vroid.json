@@ -15,12 +15,14 @@
         "left_arm_upper2": "J_Bip_L_UpperArm",
         "left_arm_lower1": "J_Bip_L_LowerArm",
         "left_arm_lower2": "J_Bip_L_LowerArm",
+        "left_bust": "J_Sec_L_Bust1",
 
         "right_shoulder": "J_Bip_R_Shoulder",
         "right_arm_upper1": "J_Bip_R_UpperArm",
         "right_arm_upper2": "J_Bip_R_UpperArm",
         "right_arm_lower1": "J_Bip_R_LowerArm",
         "right_arm_lower2": "J_Bip_R_LowerArm",
+        "right_bust": "J_Sec_R_Bust1",
 
         "left_hand": "J_Bip_L_Hand",
         "left_hand_thumb1": "J_Bip_L_Thumb1",

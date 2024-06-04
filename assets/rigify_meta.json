@@ -15,12 +15,14 @@
         "left_arm_upper2": null,
         "left_arm_lower1": "forearm.L",
         "left_arm_lower2": null,
+        "left_bust": "breast.L",
 
         "right_shoulder": "shoulder.R",
         "right_arm_upper1": "upper_arm.R",
         "right_arm_upper2": null,
         "right_arm_lower1": "forearm.R",
         "right_arm_lower2": null,
+        "right_bust": "breast.R",
 
         "left_hand": "hand.L",
         "left_hand_thumb1": "thumb.01.L",

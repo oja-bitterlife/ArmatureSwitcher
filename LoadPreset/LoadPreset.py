@@ -32,26 +32,23 @@ def _set_bone_mapping(context, f_src, f_dist):
 
         src_bones = src["bones"]
         dist_bones = dist["bones"]
+        dist_bone_keys = dist_bones.keys()  # 何度も実行しないようキャッシュ
 
         # 両方に同じキーがあれば置き換え対象
-        src_added = []
         context.scene.ARMATURE_SWITCHER_bonemap_list.clear()
         for key in src_bones.keys():
-            # すでに追加済みなら飛ばす
-            if src_bones[key] in src_added:
+            # nullは無視
+            if not src_bones[key]:
                 continue
-            src_added.append(src_bones[key])
 
-            # 対応Boneが存在すればリストに追加
-            if key in dist_bones.keys():
-                # 対応Boneが無いときにnullにしてあるので飛ばす
-                if not src_bones[key] or not dist_bones[key]:
-                    continue
+            # 対応Boneがなければ無視(nullも無視)
+            if key not in dist_bone_keys or not dist_bones[key]:
+                continue
 
-                # bonemapリストに追加する
-                item = context.scene.ARMATURE_SWITCHER_bonemap_list.add()
-                item.src_bone = src_bones[key]
-                item.dist_bone = dist_bones[key]
+            # bonemapリストに追加する
+            item = context.scene.ARMATURE_SWITCHER_bonemap_list.add()
+            item.src_bone = src_bones[key]
+            item.dist_bone = dist_bones[key]
 
     except Exception as e:
         # 失敗

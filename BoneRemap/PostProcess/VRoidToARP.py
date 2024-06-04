@@ -1,7 +1,7 @@
 import bpy
 import math
 
-def PostProcess(context, dist_armature):
+def PostProcess(context, src_pos, dist_armature):
     # 追加Roll。主に指のボーンを-90度曲げる(Rは追従するのでLのみ)
     additional_roll = (
         ("shoulder_ref.l", -90),

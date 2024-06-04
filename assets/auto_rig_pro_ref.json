@@ -15,12 +15,14 @@
         "left_arm_upper2": null,
         "left_arm_lower1": "forearm_ref.l",
         "left_arm_lower2": null,
+        "left_bust": null,
 
         "right_shoulder": "shoulder_ref.r",
         "right_arm_upper1": "arm_ref.r",
         "right_arm_upper2": null,
         "right_arm_lower1": "forearm_ref.r",
         "right_arm_lower2": null,
+        "right_bust": null,
 
         "left_hand": "hand_ref.l",
         "left_hand_thumb1": "thumb1_ref.l",

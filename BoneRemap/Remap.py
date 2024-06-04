@@ -93,7 +93,7 @@ class ARMATUE_SWITCHER_OT_match_bones(bpy.types.Operator):
             dist_bone.roll = src_pos[bonemap.src_bone][2]
 
         # ポストプロセス
-        MATCH_POSTPROCESS[context.scene.ARMATURE_SWITCHER_match_postprocess](context, dist_armature)
+        MATCH_POSTPROCESS[context.scene.ARMATURE_SWITCHER_match_postprocess](context, src_pos, dist_armature)
 
         # モードとActiveオブジェクトを戻しておく
         bpy.ops.object.mode_set(mode='OBJECT')
@@ -129,7 +129,7 @@ classes = [
 
 from .PostProcess import VRoidToARP, VRoidToRigify
 MATCH_POSTPROCESS = {
-    "None": lambda context, dist_armature : None,  # なにもしない
+    "None": lambda context, src_pos, dist_armature : None,  # なにもしない
     "VRoid to ARP": VRoidToARP.PostProcess,
     "VRoid to Rigify": VRoidToRigify.PostProcess,
 }
