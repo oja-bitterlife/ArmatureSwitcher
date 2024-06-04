@@ -1,9 +1,41 @@
-import bpy, mathutils
+import bpy, mathutils, math
 
 def PostProcess(context, src_pos, dist_armature):
     # 首ボーンは分割されている
     dist_armature.data.edit_bones["spine.005"].head = (dist_armature.data.edit_bones["spine.004"].head + dist_armature.data.edit_bones["spine.004"].tail) * 0.5
     dist_armature.data.edit_bones["spine.003"].tail = dist_armature.data.edit_bones["spine.004"].head  # くっつける必要がある
+
+    # 追加Roll。主に指のボーンを-90度曲げる(Rは追従するのでLのみ)
+    additional_roll = (
+        ("shoulder.L", -90),
+        # ("arm_ref.l", -90),
+        # ("forearm_ref.l", -90),
+        # ("hand_ref.l", -90),
+        ("thumb.01.L", 90),
+        ("thumb.02.L", 90),
+        ("thumb.03.L", 90),
+        ("f_index.01.L", 90),
+        ("f_index.02.L", 90),
+        ("f_index.03.L", 90),
+        ("f_middle.01.L", 90),
+        ("f_middle.02.L", 90),
+        ("f_middle.03.L", 90),
+        ("f_ring.01.L", 90),
+        ("f_ring.02.L", 90),
+        ("f_ring.03.L", 90),
+        ("f_pinky.01.L", 90),
+        ("f_pinky.02.L", 90),
+        ("f_pinky.03.L", 90),
+        # ("thigh_ref.l", -90),
+        # ("leg_ref.l", -90),
+        # ("foot_ref.l", 180),
+        # ("toes_ref.l", 180),
+    )
+    for key, roll in additional_roll:
+        dist_armature.data.edit_bones[key].roll += roll * math.pi / 180
+    for key, roll in additional_roll:
+        key = key.replace(".L", ".R")
+        dist_armature.data.edit_bones[key].roll += -roll * math.pi / 180
 
     # 手のひらボーンの再配置
     move_base_value = (dist_armature.data.edit_bones["f_ring.01.L"].head- dist_armature.data.edit_bones["f_middle.01.L"].head)  # 中指、薬指間を基準長とする
@@ -26,7 +58,7 @@ def PostProcess(context, src_pos, dist_armature):
             bone = dist_armature.data.edit_bones[key]
             bone.tail = dist_armature.data.edit_bones[tail_bone].head
             bone.head = hand_bone.head + move_base_value * val
-            bone.roll = hand_bone.roll
+            bone.roll = dist_armature.data.edit_bones[tail_bone].roll
 
             # ちょっと短くする
             v = (bone.tail - bone.head)*0.8
