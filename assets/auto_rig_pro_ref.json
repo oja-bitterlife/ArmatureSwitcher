@@ -79,5 +79,6 @@
         "right_leg_lower2": null,
         "right_foot": "foot_ref.r",
         "right_toe": "toes_ref.r"
-    }
+    },
+    "post_process": "VRoid to ARP"
 }

@@ -79,5 +79,6 @@
         "right_leg_lower2": null,
         "right_foot": "foot.R",
         "right_toe": "toe.R"
-    }
+    },
+    "post_process": "VRoid to Rigify"
 }

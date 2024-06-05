@@ -50,6 +50,12 @@ def _set_bone_mapping(context, f_src, f_dist):
             item.src_bone = src_bones[key]
             item.dist_bone = dist_bones[key]
 
+        # post_processの設定
+        if "post_process" in dist:
+            context.scene.ARMATURE_SWITCHER_match_postprocess = dist["post_process"]
+        else:
+            context.scene.ARMATURE_SWITCHER_match_postprocess = "None"
+
     except Exception as e:
         # 失敗
         context.scene.ARMATURE_SWITCHER_bonemap_list.clear()
@@ -68,6 +74,7 @@ def draw(cls, context, layout):
     
 
 PRESET_DATA = (
+    # ID, src_json, dist_json
     ("Select Preset", None, None),
     ("VRoidStudio => AutoRigPro(Vertex Groups)", "vroid.json", "auto_rig_pro_vg.json"),
     ("VRoidStudio => AutoRigPro(Reference Bones)", "vroid.json", "auto_rig_pro_ref.json"),
@@ -85,7 +92,7 @@ def onchange_bonemap_presets(self, context):
         context.scene.ARMATURE_SWITCHER_bonemap_preset = PRESET_DATA[0][0]
 
         if error:
-            self.report({'ERROR'}, error)
+            print(error)
 
 
 # register/unregister
