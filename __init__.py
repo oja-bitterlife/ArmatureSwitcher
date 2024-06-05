@@ -15,8 +15,8 @@ bl_info = {
     "name" : "ArmatureSwitcher",
     "author" : "oja",
     "description" : "",
-    "blender" : (2, 80, 0),
-    "version" : (0, 0, 1),
+    "blender" : (4, 1, 1),
+    "version" : (1, 0, 1),
     "location" : "",
     "warning" : "",
     "category" : "Generic"
