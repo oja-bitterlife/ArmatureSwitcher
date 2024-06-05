@@ -1,8 +1,8 @@
 # VRoidStudioで出力したVRM1.0形式モデルのボーンをBlenderのRig(AutoRigPro/Rigify)に置き換えるアドオン
 
-[VRoidStudio](https://vroid.com/studio)
-
-[AutoRigPro](https://blendermarket.com/products/auto-rig-pro)
+- [VRoidStudio](https://vroid.com/studio)
+- [AutoRigPro](https://blendermarket.com/products/auto-rig-pro)
+- Rigify(※Blender標準アドオン)
 
 VRM1.0形式のボーンをBlenderのArmatureで置き換えるアドオンです。置き換え先としてAutoRigProやRigifyが使えるので、いちいち自分でリグを組む必要が無くなります。
 
@@ -10,9 +10,14 @@ VRM1.0形式のボーンをBlenderのArmatureで置き換えるアドオンで�
 
 逆に言うとリグやウェイトがそのまま使えればだいぶ楽ができるので、Blenderでデファクトスタンダードと言えるAutoRigProやRigifyで置き換えられるようにしてみました。
 
-イテレーションを想定してボーンとスキンウェイトの処理を分けてあります。リグをカスタマイズした後でもボーンに大きな変更が無ければ(身長や手足胴の長さに大きな変更がない)、VRoidStudioでモデルを修正してBlenderでVRMをImportし直しスキンウェイトの再設定だけすれば、カスタマイズしたリグを残してモデルだけ更新できます。
+ボーンとスキンウェイトの処理が分かれていますので、リグをカスタマイズした後でもボーンに大きな変更が無ければ(身長や手足胴の長さに大きな変更がない)、VRoidStudioで修正したモデルをBlenderでImportし直してスキンウェイトだけ再設定することができ、イテレーションしやすくなっています。
 
 ## AutoRigProでの使い方
 
+AutoRigProはリファレンスボーンを修正した後Match to Rigボタンでリグを生成し、そのリグのDeformボーンでスキンウェイトを設定する方式です。
+
 
 ## Rigifyでの使い方
+
+Rigifyはmetarig(リファレンスボーン)を修正した後Generate Rigボタンでリグを生成し、そのリグのDeformボーンでスキンウェイトを設定する方式です。
+
