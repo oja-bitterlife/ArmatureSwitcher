@@ -23,6 +23,9 @@ https://vrm-addon-for-blender.info/ja/
 何らかの原因でBone名が変わると(.001とか付いちゃうと)現在ボーン名決め打ちで対応しているのでいろいろ失敗します。Bone名が変わる理由が特定できるものに関してはおいおい対応するかも。
 
 
+<details>
+<summary>AutoRigProでの使い方</summary>
+
 ## AutoRigProでの使い方
 
 AutoRigProはリファレンスボーンを修正した後MatchToRigボタンでリグを生成し、そのリグのDeformボーンでスキンウェイトを設定する方式です。
@@ -75,6 +78,10 @@ AutoRigProはリファレンスボーンを修正した後MatchToRigボタンで
 元のArmatureは不要なので削除して大丈夫です。子にメッシュがぶら下がっているのでメッシュごと削除しないように気をつけてください。
 
 Collidersコレクションも丸っと不要なので削除して大丈夫です。
+</details>
+
+<details>
+<summary>Rigifyでの使い方</summary>
 
 ## Rigifyでの使い方
 
@@ -129,3 +136,4 @@ Rigifyはmetarig(リファレンスボーン)を修正した後GenerateRigボタ
 WGTS_rigコレクション(GenerateRigの時に作られた中間データ)も丸っと不要なので削除して大丈夫です。
 
 metarigもGenerateRigした後ならいつでも削除できます。
+</details>
