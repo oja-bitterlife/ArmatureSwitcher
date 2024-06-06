@@ -65,6 +65,7 @@ AutoRigProはリファレンスボーンを修正した後MatchToRigボタンで
 1. ArmatureSwitcherのRemapVertexGroup&Armatureボタンを押す
 ![alt text](imgs/arp-8.png)
 
+
 モディファイアのArmatureがRigに置き換わり、各頂点ウェイトのターゲットボーン名がAutoRigProのものに変更されます。
 
 <b>髪の毛などはAutoRigProに対応するボーンが無いため頂点ウェイトが設定されません。VRMからボーンを移植するかhead.x等に頂点グループを手動で設定してください。</b>
@@ -113,12 +114,17 @@ Rigifyはmetarig(リファレンスボーン)を修正した後GenerateRigボタ
 ![alt text](imgs/arp-7.png)
 
 1. ArmatureSwitcherのRemapVertexGroup&Armatureボタンを押す
-![alt text](image.png)
+![alt text](imgs/arp-8.png)
+
+モディファイアのArmatureがRigに置き換わり、各頂点ウェイトのターゲットボーン名がRigifyのものに変更されます。
+
+<b>髪の毛などはRigifyに対応するボーンが無いため頂点ウェイトが設定されません。VRMからボーンを移植するかhead.x等に頂点グループを手動で設定してください。</b>
 
 
-モディファイアのArmatureがRigに置き換わり、各頂点ウェイトのターゲットボーン名がAutoRigProのものに変更されます。
+### 後片付け
 
-<b>髪の毛などはAutoRigProに対応するボーンが無いため頂点ウェイトが設定されません。VRMからボーンを移植するかhead.x等に頂点グループを手動で設定してください。</b>
+元のArmatureは不要なので削除して大丈夫です。子にメッシュがぶら下がっているのでメッシュごと削除しないように気をつけてください。
 
+metarigもGenerateRigした後ならいつでも削除できます。
 
-WGTS_rig.001
+WGTS_rigコレクション(GenerateRigの時に作られた中間データ)も丸っと不要なので削除して大丈夫です。
