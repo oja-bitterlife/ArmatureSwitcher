@@ -127,6 +127,6 @@ Rigifyはmetarig(リファレンスボーン)を修正した後GenerateRigボタ
 
 元のArmatureは不要なので削除して大丈夫です。子にメッシュがぶら下がっているのでメッシュごと削除しないように気をつけてください。
 
-metarigも削除できます。
-
 WGTS_rigコレクション(GenerateRigの時に作られた中間データ)も丸っと不要なので削除して大丈夫です。
+
+metarigもGenerateRigした後ならいつでも削除できます。
