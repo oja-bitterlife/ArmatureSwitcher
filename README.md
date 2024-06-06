@@ -80,7 +80,7 @@ Collidersコレクションも丸っと不要なので削除して大丈夫で�
 
 Rigifyはmetarig(リファレンスボーン)を修正した後GenerateRigボタンでリグを生成し、そのリグのDeformボーンでスキンウェイトを設定する方式です。
 
-### ARPのmetarigを設定する
+### Rigifyのmetarigを設定する
 
 1. AddメニューのArmatureよりHuman(Meta-Rig)を追加する<br>
 ※メニューに出てこない場合はRigifyが有効になっていないかも<br>
