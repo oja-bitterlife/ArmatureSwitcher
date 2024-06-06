@@ -30,39 +30,39 @@ AutoRigProはリファレンスボーンを修正した後MatchToRigボタンで
 
 ### ARPのリファレンスボーンを設定する
 
-1. AutoRigProのAddArmatureでHumanArmatureを生成
+1. AutoRigProのAddArmatureでHumanArmatureを生成<br>
 ![alt text](imgs/arp-0.png)
 
-1. AutoRigProでEditReferenceBonesボタンを押してリファレンスボーンの編集モードに
+1. AutoRigProでEditReferenceBonesボタンを押してリファレンスボーンの編集モードに<br>
 ![alt text](imgs/arp-1.png)
 
-1. ArmatureSwitcherのパネルのArmatureの所を設定
+1. ArmatureSwitcherのパネルのArmatureの所を設定<br>
 ![alt text](imgs/arp-2.png)
 
-1. ArmatureSwitcherのPresetの選択でAutoRigPro(ReferenceBone)を選択
+1. ArmatureSwitcherのPresetの選択でAutoRigPro(ReferenceBone)を選択<br>
 ![alt text](imgs/arp-3.png)
 
-1. ArmatureSwitcherのMatchBonesボタンを押す
-<b>※PostProcessがVRoidToARPになっていること</b>
+1. ArmatureSwitcherのMatchBonesボタンを押す<br>
+<b>※PostProcessがVRoidToARPになっていること</b><br>
 ![alt text](imgs/arp-5.png)
 
-1. AutoRigProのMatchToRigボタンを押す
+1. AutoRigProのMatchToRigボタンを押す<br>
 ![alt text](imgs/arp-6.png)
 
 ここまででリグが作成されます。
 
 ### モデルのArmatureをARPのRigに置き換える
 
-1. ArmatureSwitcherのパネルのArmatureの所を設定
+1. ArmatureSwitcherのパネルのArmatureの所を設定<br>
 ![alt text](imgs/arp-2.png)
 
-1. ArmatureSwitcherのPresetの選択でAutoRigPro(VertexGroup)を選択
+1. ArmatureSwitcherのPresetの選択でAutoRigPro(VertexGroup)を選択<br>
 ![alt text](imgs/arp-9.png)
 
-1. 置き換えたいモデルのオブジェクトを選択する
+1. 置き換えたいモデルのオブジェクトを選択する<br>
 ![alt text](imgs/arp-7.png)
 
-1. ArmatureSwitcherのRemapVertexGroup&Armatureボタンを押す
+1. ArmatureSwitcherのRemapVertexGroup&Armatureボタンを押す<br>
 ![alt text](imgs/arp-8.png)
 
 
@@ -82,38 +82,38 @@ Rigifyはmetarig(リファレンスボーン)を修正した後GenerateRigボタ
 
 ### ARPのmetarigを設定する
 
-1. AddメニューのArmatureよりHuman(Meta-Rig)を追加する
-※メニューに出てこない場合はRigifyが有効になっていないかも
+1. AddメニューのArmatureよりHuman(Meta-Rig)を追加する<br>
+※メニューに出てこない場合はRigifyが有効になっていないかも<br>
 ![alt text](imgs/rigify-0.png)
 
-1. ArmatureSwitcherのパネルのArmatureの所を設定
+1. ArmatureSwitcherのパネルのArmatureの所を設定<br>
 ![alt text](imgs/rigify-5.png)
 
-1. ArmatureSwitcherのPresetの選択でRigify(Metarig)を選択
+1. ArmatureSwitcherのPresetの選択でRigify(Metarig)を選択<br>
 ![alt text](imgs/rigify-1.png)
 
-1. ArmatureSwitcherのMatchBonesボタンを押す
-<b>※PostProcessがVRoidToRigifyになっていること</b>
+1. ArmatureSwitcherのMatchBonesボタンを押す<br>
+<b>※PostProcessがVRoidToRigifyになっていること</b><br>
 ![alt text](imgs/rigify-2.png)
 
-1. ObjectDataPropertyのRigifyにあるGenerateRigボタンを押す
+1. ObjectDataPropertyのRigifyにあるGenerateRigボタンを押す<br>
 ![alt text](imgs/rigify-3.png)
 
 ここまででリグが作成されます。
 
 ### モデルのArmatureをRigifyのRigに置き換える
 
-1. ArmatureSwitcherのパネルのArmatureの所を設定
-<b>※metarigではなくGenerateRigで生成されたリグです</b>
+1. ArmatureSwitcherのパネルのArmatureの所を設定<br>
+<b>※metarigではなくGenerateRigで生成されたリグです</b><br>
 ![alt text](imgs/rigify-6.png)
 
-1. ArmatureSwitcherのPresetの選択でRigify(VertexGroup)を選択
+1. ArmatureSwitcherのPresetの選択でRigify(VertexGroup)を選択<br>
 ![alt text](imgs/rigify-4.png)
 
-1. 置き換えたいモデルのオブジェクトを選択する
+1. 置き換えたいモデルのオブジェクトを選択する<br>
 ![alt text](imgs/arp-7.png)
 
-1. ArmatureSwitcherのRemapVertexGroup&Armatureボタンを押す
+1. ArmatureSwitcherのRemapVertexGroup&Armatureボタンを押す<br>
 ![alt text](imgs/arp-8.png)
 
 モディファイアのArmatureがRigに置き換わり、各頂点ウェイトのターゲットボーン名がRigifyのものに変更されます。
