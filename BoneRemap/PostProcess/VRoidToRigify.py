@@ -33,6 +33,21 @@ def PostProcess(context, src_pos, dist_armature):
         key = key.replace(".L", ".R")
         dist_armature.data.edit_bones[key].roll += -roll * math.pi / 180
 
+    # 人差し指のボーンをY軸でそろえないとRigがおかしくなる
+    finger_index = (
+        ("f_index.01.L", "f_index.03.L"),
+        ("f_index.02.L", "f_index.03.L"),
+        ("f_index.03.L", "f_index.03.L"),
+        ("f_index.01.R", "f_index.03.R"),
+        ("f_index.02.R", "f_index.03.R"),
+        ("f_index.03.R", "f_index.03.R"),
+    )
+    for key, base in finger_index:
+        if base != key:  # 指先はコピーもとなので無視する
+            dist_armature.data.edit_bones[key].tail.y = dist_armature.data.edit_bones[base].tail.y
+        dist_armature.data.edit_bones[key].head.y = dist_armature.data.edit_bones[base].tail.y
+
+
     # 手のひらボーンの再配置
     move_base_value = (dist_armature.data.edit_bones["f_ring.01.L"].head- dist_armature.data.edit_bones["f_middle.01.L"].head)  # 中指、薬指間を基準長とする
     palms_L = ( # Bone名, z軸移動割合

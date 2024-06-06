@@ -17,6 +17,7 @@ VRoidStudioで作ったVRM1.0形式のボーンをBlenderのArmatureで置き換
 VRoidStudioでVRM1.0でExportしてください。VRM0.0ではボーンのRollがリセットされてしまって値を取得することができません。
 
 こちらのアドオンを使ってBlenderでVRM1.0のモデルをImportしてください。
+
 https://vrm-addon-for-blender.info/ja/
 
 生成しようとしている物と同名のArmatureがすでにある場合は生成されるボーン名が変わってしまうので失敗します(ボーン名決め打ちで対応しています)
