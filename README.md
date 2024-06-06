@@ -37,6 +37,7 @@ AutoRigProはリファレンスボーンを修正した後MatchToRigボタンで
 ![alt text](imgs/arp-1.png)
 
 1. ArmatureSwitcherのパネルのArmatureの所を設定<br>
+<b>※SrcにVRMのArmature、DistにARPのArmatureを設定</b><br>
 ![alt text](imgs/arp-2.png)
 
 1. ArmatureSwitcherのPresetの選択でAutoRigPro(ReferenceBone)を選択<br>
@@ -87,6 +88,7 @@ Rigifyはmetarig(リファレンスボーン)を修正した後GenerateRigボタ
 ![alt text](imgs/rigify-0.png)
 
 1. ArmatureSwitcherのパネルのArmatureの所を設定<br>
+<b>※SrcにVRMのArmature、DistにRigifyのmetarigを設定</b><br>
 ![alt text](imgs/rigify-5.png)
 
 1. ArmatureSwitcherのPresetの選択でRigify(Metarig)を選択<br>
@@ -104,7 +106,7 @@ Rigifyはmetarig(リファレンスボーン)を修正した後GenerateRigボタ
 ### モデルのArmatureをRigifyのRigに置き換える
 
 1. ArmatureSwitcherのパネルのArmatureの所を設定<br>
-<b>※metarigではなくGenerateRigで生成されたリグです</b><br>
+<b>※SrcにVRMのArmature、DistにRigifyでGenerateしたRigを設定</b><br>
 ![alt text](imgs/rigify-6.png)
 
 1. ArmatureSwitcherのPresetの選択でRigify(VertexGroup)を選択<br>
