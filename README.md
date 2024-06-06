@@ -31,45 +31,36 @@ AutoRigProはリファレンスボーンを修正した後MatchToRigボタンで
 ### ARPのリファレンスボーンを設定する
 
 1. AutoRigProのAddArmatureでHumanArmatureを生成
-
-![alt text](imgs/image.png)
+![alt text](imgs/arp-0.png)
 
 1. AutoRigProでEditReferenceBonesボタンを押してリファレンスボーンの編集モードに
-
-![alt text](imgs/image-1.png)
+![alt text](imgs/arp-1.png)
 
 1. ArmatureSwitcherのパネルのArmatureの所を設定
-
-![alt text](imgs/image-2.png)
+![alt text](imgs/arp-2.png)
 
 1. ArmatureSwitcherのPresetの選択でAutoRigPro(ReferenceBone)を選択
-
-![alt text](imgs/image-3.png)
+![alt text](imgs/arp-3.png)
 
 1. ArmatureSwitcherのMatchBonesボタンを押す
 ※PostProcessがVRoidToARPになっていること
-
-![alt text](imgs/image-5.png)
+![alt text](imgs/arp-5.png)
 
 1. AutoRigProのMatchToRigボタンを押す
-
-![alt text](imgs/image-6.png)
+![alt text](imgs/arp-6.png)
 
 ここまででリグが作成されます。
 
 ### モデルのArmatureをARPのRigに置き換える
 
-1.ArmatureSwitcherのPresetの選択でAutoRigPro(VertexGroup)を選択
-
-![alt text](imgs/image-9.png)
+1. ArmatureSwitcherのPresetの選択でAutoRigPro(VertexGroup)を選択
+![alt text](imgs/arp-9.png)
 
 1. 置き換えたいモデルのオブジェクトを選択する
-
-![alt text](imgs/image-7.png)
+![alt text](imgs/arp-7.png)
 
 1. ArmatureSwitcherのRemapVertexGroup&Armatureボタンを押す
-
-![alt text](imgs/image-8.png)
+![alt text](imgs/arp-8.png)
 
 モディファイアのArmatureがRigに置き換わり、各頂点ウェイトのターゲットボーン名がAutoRigProのものに変更されます。
 
@@ -79,7 +70,7 @@ AutoRigProはリファレンスボーンを修正した後MatchToRigボタンで
 
 元のArmatureは不要なので削除して大丈夫です。子にメッシュがぶら下がっているのでメッシュごと削除しないように気をつけてください。
 
-Collidersコレクションも不要なので削除して大丈夫です。
+Collidersコレクションも丸っと不要なので削除して大丈夫です。
 
 ## Rigifyでの使い方
 
