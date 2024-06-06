@@ -61,7 +61,10 @@ def draw(cls, context, layout):
     row.prop(context.scene, "ARMATURE_SWITCHER_bone_dist")
 
     row = box.row()
-    # SrcBoneがすでに存在するかチェック
+    # Boneが設定されているか
+    if context.scene.ARMATURE_SWITCHER_bone_src == "NoBone" or context.scene.ARMATURE_SWITCHER_bone_dist == "NoBone":
+        row.enabled = False
+    # SrcBoneがすでにリストに存在するかチェック
     src_bones = (bonemap.src_bone for bonemap in context.scene.ARMATURE_SWITCHER_bonemap_list)
     if context.scene.ARMATURE_SWITCHER_bone_src in src_bones:
         row.enabled = False

@@ -31,7 +31,7 @@ class ARMATUE_SWITCHER_PT_armature_remap(bpy.types.Panel):
 
         # Armatureが有効になるまで続きは無視
         setting_box = self.layout.box()
-        if not context.scene.ARMATURE_SWITCHER_armature_src or not context.scene.ARMATURE_SWITCHER_armature_dist:
+        if context.scene.ARMATURE_SWITCHER_armature_src == "NoArmature" or context.scene.ARMATURE_SWITCHER_armature_dist == "NoArmature":
             setting_box.enabled = False
         if context.scene.ARMATURE_SWITCHER_armature_src == context.scene.ARMATURE_SWITCHER_armature_dist:
             setting_box.enabled = False
@@ -56,27 +56,34 @@ class ARMATUE_SWITCHER_PT_armature_remap(bpy.types.Panel):
 # =================================================================================================
 # セレクトボックスに表示したいArmatureのリストを作成する関数
 def get_armature_list(self, context):
-    return ((obj.name, obj.name, "") for obj in bpy.data.objects if obj.type == "ARMATURE" and obj.data.users > 0)
-
+    return [("NoArmature", "(Select Armature)", "")] + [(obj.name, obj.name, "") for obj in bpy.data.objects if obj.type == "ARMATURE" and obj.data.users > 0]
 
 # セレクトボックスに表示したいBoneのリストを作成する関数
 def get_src_bone_list(self, context):
     armature_name = context.scene.ARMATURE_SWITCHER_armature_src
-    if(not armature_name):
-        return ()
+    if armature_name == "NoArmature":  # アーマチュア未選択
+        return [("NoBone", "(Select Armature)", "")]
 
     armature = bpy.data.objects[armature_name]
     deform_only = context.scene.ARMATURE_SWITCHER_bone_deform
-    return ((bone.name, bone.name, "") for bone in armature.data.bones if bone.name and (not deform_only or bone.use_deform))
+    bones = list((bone.name, bone.name, "") for bone in armature.data.bones if bone.name and (not deform_only or bone.use_deform))
+    if len(bones) > 0:
+        return bones
+    else:  # Boneが存在しない
+        return [("NoBone", "(No Bone)", "")]
 
 def get_dist_bone_list(self, context):
     armature_name = context.scene.ARMATURE_SWITCHER_armature_dist
-    if(not armature_name):
-        return ()
+    if armature_name == "NoArmature":  # アーマチュア未選択
+        return [("NoBone", "(Select Armature)", "")]
 
     armature = bpy.data.objects[armature_name]
     deform_only = context.scene.ARMATURE_SWITCHER_bone_deform
-    return ((bone.name, bone.name, "") for bone in armature.data.bones if bone.name and (not deform_only or bone.use_deform))
+    bones =  list((bone.name, bone.name, "") for bone in armature.data.bones if bone.name and (not deform_only or bone.use_deform))
+    if len(bones) > 0:
+        return bones
+    else:  # Boneが存在しない
+        return [("NoBone", "(No Bone)", "")]
 
 
 # ボーン対応表データ
