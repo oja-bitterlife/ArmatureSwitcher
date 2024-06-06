@@ -52,6 +52,9 @@ class ARMATUE_SWITCHER_OT_remap_vw(bpy.types.Operator):
                 if mod.type == "ARMATURE" and mod.object.name == context.scene.ARMATURE_SWITCHER_armature_src:
                     mod.object = bpy.data.objects[context.scene.ARMATURE_SWITCHER_armature_dist]
 
+                    # おまけ機能(一番前に表示)
+                    mod.object.show_in_front = True
+
         return{'FINISHED'}
 
 
