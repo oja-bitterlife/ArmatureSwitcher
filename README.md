@@ -52,7 +52,7 @@ AutoRigProはリファレンスボーンを修正した後MatchToRigボタンで
 
 ここまででリグが作成されます。
 
-### モデルのArmatureをARPのRigに置き換える
+### モデルのArmatureと頂点ウェイトをARPのRigに置き換える
 
 1. ArmatureSwitcherのパネルのArmatureの所を設定<br>
 ![alt text](imgs/arp-2.png)
@@ -103,7 +103,7 @@ Rigifyはmetarig(リファレンスボーン)を修正した後GenerateRigボタ
 
 ここまででリグが作成されます。
 
-### モデルのArmatureをRigifyのRigに置き換える
+### モデルのArmatureと頂点ウェイトをRigifyのRigに置き換える
 
 1. ArmatureSwitcherのパネルのArmatureの所を設定<br>
 <b>※SrcにVRMのArmature、DistにRigifyでGenerateしたRigを設定</b><br>
@@ -127,6 +127,6 @@ Rigifyはmetarig(リファレンスボーン)を修正した後GenerateRigボタ
 
 元のArmatureは不要なので削除して大丈夫です。子にメッシュがぶら下がっているのでメッシュごと削除しないように気をつけてください。
 
-metarigもGenerateRigした後ならいつでも削除できます。
+metarigも削除できます。
 
 WGTS_rigコレクション(GenerateRigの時に作られた中間データ)も丸っと不要なので削除して大丈夫です。
